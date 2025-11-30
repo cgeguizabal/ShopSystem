@@ -18,17 +18,16 @@ namespace Sistema.Data
 
         private static Connection con = null;
 
-
-
         private Connection()
         {
             // Constructor privado para evitar instanciación externa
             this.Base = "dbsistema";
-            this.Server = "Guille";
+            this.Server = @"(local)\SQLEXPRESS";
             this.User = "sa";
             this.Password = "Cgeo14051997";
             this.Security = true;
         }
+        
 
         public SqlConnection CreateConnection() {
         SqlConnection cadena = new SqlConnection();
@@ -39,7 +38,7 @@ namespace Sistema.Data
                 // Server=myServerAddress;Database=myDataBase;
                 if (this.Security) //Windows Security authentication
                 {
-                    cadena.ConnectionString = cadena.ConnectionString + "Integrated Security= SSPI";
+                    cadena.ConnectionString = cadena.ConnectionString + "Integrated Security=SSPI;";
                 }
                 else
                 {
