@@ -10,7 +10,7 @@ using Sistema.Entities;
 
 
 //Service / Data classes
-namespace Sistema.Data
+namespace Sistema.Data // Here I create the data access layer namespace to interact with the database, like my axios instances in react
 {
     public class DCategoria
     {

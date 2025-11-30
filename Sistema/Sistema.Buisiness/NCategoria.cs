@@ -8,7 +8,7 @@ using Sistema.Data;
 
 using Sistema.Entities;
 
-namespace Sistema.Business
+namespace Sistema.Business // Here I create the business logic layer namespace, here I use the Data and Entities layers and manupulate the data
 {
     public class NCategoria
     {

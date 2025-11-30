@@ -8,7 +8,7 @@ using System.Data.SqlClient;
 
 namespace Sistema.Data
 {
-    public class Connection
+    public class Connection // Here I create the Connection class to manage the database connection
     {
         private string Base;
         private string Server;
