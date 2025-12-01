@@ -43,25 +43,36 @@ namespace Sistema.Business // Here I create the business logic layer namespace, 
 
             }
 
-        public static string Actualizar(int Id, string Nombre, string Descripcion)
+        public static string Actualizar(int Id,string NombreAnt, string Nombre, string Descripcion)
         {
             DCategoria Datos = new DCategoria(); //Creating an object of DCategoria class from Sistema.Data
+            Categoria Obj = new Categoria(); //Creating an object of Categoria class from Sistema.Entities
 
-            string Existe = Datos.Existe(Nombre); //This line calls the Existe method from DCategoria class
-            if (Existe.Equals("1"))
-            {
-                return "La categoria ya existe.";
-            }
-            else
-            {
 
-                Categoria Obj = new Categoria(); //Creating an object of Categoria class from Sistema.Entities
+            if(NombreAnt.Equals(Nombre))
+            {
                 Obj.IdCategoria = Id; //Setting the IdCategoria property of Categoria object
                 Obj.Nombre = Nombre; //Setting the Nombre property of Categoria object
                 Obj.Descripcion = Descripcion; //Setting the Descripcion property of Categoria object
-                return Datos.Actualizar(Obj); //This line calls the Insertar method from DCategoria class}
+                return Datos.Actualizar(Obj); //This line calls the Insertar method from DCategoria class
+            }
+            else
+            {
+                string Existe = Datos.Existe(Nombre); //This line calls the Existe method from DCategoria class
+                if (Existe.Equals("1"))
+                {
+                    return "La categoria ya existe.";
+                }
+                else
+                {
+                    Obj.IdCategoria = Id; //Setting the IdCategoria property of Categoria object
+                    Obj.Nombre = Nombre; //Setting the Nombre property of Categoria object
+                    Obj.Descripcion = Descripcion; //Setting the Descripcion property of Categoria object
+                    return Datos.Actualizar(Obj); //This line calls the Insertar method from DCategoria class
+                }
 
             }
+              
                
         }
         public static string Eliminar(int Id)
