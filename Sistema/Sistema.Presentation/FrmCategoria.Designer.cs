@@ -31,22 +31,26 @@
             this.components = new System.ComponentModel.Container();
             this.TabGeneral = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.BtnEliminar = new System.Windows.Forms.Button();
+            this.BtnDesactivar = new System.Windows.Forms.Button();
+            this.BtnActivar = new System.Windows.Forms.Button();
+            this.ChkSeleccion = new System.Windows.Forms.CheckBox();
             this.BtnBuscar = new System.Windows.Forms.Button();
             this.TxtBuscar = new System.Windows.Forms.TextBox();
             this.LblTotal = new System.Windows.Forms.Label();
             this.DgvListado = new System.Windows.Forms.DataGridView();
             this.Seleccionar = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.TxtNombre = new System.Windows.Forms.TextBox();
-            this.TxtDescripcion = new System.Windows.Forms.TextBox();
-            this.TxtId = new System.Windows.Forms.TextBox();
-            this.label3 = new System.Windows.Forms.Label();
-            this.BtnInsertar = new System.Windows.Forms.Button();
-            this.BtnCancelar = new System.Windows.Forms.Button();
-            this.ErrorIcono = new System.Windows.Forms.ErrorProvider(this.components);
             this.BtnActualizar = new System.Windows.Forms.Button();
+            this.BtnCancelar = new System.Windows.Forms.Button();
+            this.BtnInsertar = new System.Windows.Forms.Button();
+            this.label3 = new System.Windows.Forms.Label();
+            this.TxtId = new System.Windows.Forms.TextBox();
+            this.TxtDescripcion = new System.Windows.Forms.TextBox();
+            this.TxtNombre = new System.Windows.Forms.TextBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
+            this.ErrorIcono = new System.Windows.Forms.ErrorProvider(this.components);
             this.TabGeneral.SuspendLayout();
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.DgvListado)).BeginInit();
@@ -59,7 +63,7 @@
             this.TabGeneral.Controls.Add(this.tabPage1);
             this.TabGeneral.Controls.Add(this.tabPage2);
             this.TabGeneral.Location = new System.Drawing.Point(0, 0);
-            this.TabGeneral.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.TabGeneral.Margin = new System.Windows.Forms.Padding(4);
             this.TabGeneral.Name = "TabGeneral";
             this.TabGeneral.SelectedIndex = 0;
             this.TabGeneral.Size = new System.Drawing.Size(1319, 555);
@@ -67,23 +71,65 @@
             // 
             // tabPage1
             // 
+            this.tabPage1.Controls.Add(this.BtnEliminar);
+            this.tabPage1.Controls.Add(this.BtnDesactivar);
+            this.tabPage1.Controls.Add(this.BtnActivar);
+            this.tabPage1.Controls.Add(this.ChkSeleccion);
             this.tabPage1.Controls.Add(this.BtnBuscar);
             this.tabPage1.Controls.Add(this.TxtBuscar);
             this.tabPage1.Controls.Add(this.LblTotal);
             this.tabPage1.Controls.Add(this.DgvListado);
             this.tabPage1.Location = new System.Drawing.Point(4, 25);
-            this.tabPage1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tabPage1.Margin = new System.Windows.Forms.Padding(4);
             this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tabPage1.Padding = new System.Windows.Forms.Padding(4);
             this.tabPage1.Size = new System.Drawing.Size(1311, 526);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Listado";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
+            // BtnEliminar
+            // 
+            this.BtnEliminar.Location = new System.Drawing.Point(626, 462);
+            this.BtnEliminar.Name = "BtnEliminar";
+            this.BtnEliminar.Size = new System.Drawing.Size(137, 35);
+            this.BtnEliminar.TabIndex = 7;
+            this.BtnEliminar.Text = "Eleminar";
+            this.BtnEliminar.UseVisualStyleBackColor = true;
+            // 
+            // BtnDesactivar
+            // 
+            this.BtnDesactivar.Location = new System.Drawing.Point(452, 462);
+            this.BtnDesactivar.Name = "BtnDesactivar";
+            this.BtnDesactivar.Size = new System.Drawing.Size(130, 38);
+            this.BtnDesactivar.TabIndex = 6;
+            this.BtnDesactivar.Text = "Desactivar";
+            this.BtnDesactivar.UseVisualStyleBackColor = true;
+            // 
+            // BtnActivar
+            // 
+            this.BtnActivar.Location = new System.Drawing.Point(282, 462);
+            this.BtnActivar.Name = "BtnActivar";
+            this.BtnActivar.Size = new System.Drawing.Size(132, 38);
+            this.BtnActivar.TabIndex = 5;
+            this.BtnActivar.Text = "Activar";
+            this.BtnActivar.UseVisualStyleBackColor = true;
+            // 
+            // ChkSeleccion
+            // 
+            this.ChkSeleccion.AutoSize = true;
+            this.ChkSeleccion.Location = new System.Drawing.Point(24, 472);
+            this.ChkSeleccion.Name = "ChkSeleccion";
+            this.ChkSeleccion.Size = new System.Drawing.Size(101, 20);
+            this.ChkSeleccion.TabIndex = 4;
+            this.ChkSeleccion.Text = "Seleccionar";
+            this.ChkSeleccion.UseVisualStyleBackColor = true;
+            this.ChkSeleccion.CheckedChanged += new System.EventHandler(this.ChkSeleccion_CheckedChanged);
+            // 
             // BtnBuscar
             // 
             this.BtnBuscar.Location = new System.Drawing.Point(648, 20);
-            this.BtnBuscar.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.BtnBuscar.Margin = new System.Windows.Forms.Padding(4);
             this.BtnBuscar.Name = "BtnBuscar";
             this.BtnBuscar.Size = new System.Drawing.Size(267, 28);
             this.BtnBuscar.TabIndex = 3;
@@ -94,7 +140,7 @@
             // TxtBuscar
             // 
             this.TxtBuscar.Location = new System.Drawing.Point(11, 20);
-            this.TxtBuscar.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.TxtBuscar.Margin = new System.Windows.Forms.Padding(4);
             this.TxtBuscar.Name = "TxtBuscar";
             this.TxtBuscar.Size = new System.Drawing.Size(628, 22);
             this.TxtBuscar.TabIndex = 2;
@@ -102,7 +148,7 @@
             // LblTotal
             // 
             this.LblTotal.AutoSize = true;
-            this.LblTotal.Location = new System.Drawing.Point(1133, 441);
+            this.LblTotal.Location = new System.Drawing.Point(1163, 473);
             this.LblTotal.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.LblTotal.Name = "LblTotal";
             this.LblTotal.Size = new System.Drawing.Size(38, 16);
@@ -118,13 +164,14 @@
             this.DgvListado.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Seleccionar});
             this.DgvListado.Location = new System.Drawing.Point(8, 70);
-            this.DgvListado.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.DgvListado.Margin = new System.Windows.Forms.Padding(4);
             this.DgvListado.Name = "DgvListado";
             this.DgvListado.ReadOnly = true;
             this.DgvListado.RowHeadersWidth = 51;
             this.DgvListado.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.DgvListado.Size = new System.Drawing.Size(1291, 367);
             this.DgvListado.TabIndex = 0;
+            this.DgvListado.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DgvListado_CellContentClick);
             this.DgvListado.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DgvListado_CellDoubleClick);
             // 
             // Seleccionar
@@ -147,87 +194,13 @@
             this.tabPage2.Controls.Add(this.label2);
             this.tabPage2.Controls.Add(this.label1);
             this.tabPage2.Location = new System.Drawing.Point(4, 25);
-            this.tabPage2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tabPage2.Margin = new System.Windows.Forms.Padding(4);
             this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tabPage2.Padding = new System.Windows.Forms.Padding(4);
             this.tabPage2.Size = new System.Drawing.Size(1311, 526);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Mantenimiento";
             this.tabPage2.UseVisualStyleBackColor = true;
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(48, 85);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(69, 16);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "Nombre(*)";
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(48, 148);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(79, 16);
-            this.label2.TabIndex = 1;
-            this.label2.Text = "Descripcion";
-            // 
-            // TxtNombre
-            // 
-            this.TxtNombre.Location = new System.Drawing.Point(138, 85);
-            this.TxtNombre.Name = "TxtNombre";
-            this.TxtNombre.Size = new System.Drawing.Size(599, 22);
-            this.TxtNombre.TabIndex = 2;
-            // 
-            // TxtDescripcion
-            // 
-            this.TxtDescripcion.Location = new System.Drawing.Point(138, 148);
-            this.TxtDescripcion.Multiline = true;
-            this.TxtDescripcion.Name = "TxtDescripcion";
-            this.TxtDescripcion.Size = new System.Drawing.Size(599, 84);
-            this.TxtDescripcion.TabIndex = 3;
-            // 
-            // TxtId
-            // 
-            this.TxtId.Location = new System.Drawing.Point(604, 47);
-            this.TxtId.Name = "TxtId";
-            this.TxtId.Size = new System.Drawing.Size(133, 22);
-            this.TxtId.TabIndex = 4;
-            this.TxtId.Visible = false;
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(135, 294);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(214, 16);
-            this.label3.TabIndex = 5;
-            this.label3.Text = "(*) Indica que el dato es obligatorio";
-            // 
-            // BtnInsertar
-            // 
-            this.BtnInsertar.Location = new System.Drawing.Point(138, 333);
-            this.BtnInsertar.Name = "BtnInsertar";
-            this.BtnInsertar.Size = new System.Drawing.Size(280, 57);
-            this.BtnInsertar.TabIndex = 6;
-            this.BtnInsertar.Text = "Insertar";
-            this.BtnInsertar.UseVisualStyleBackColor = true;
-            this.BtnInsertar.Click += new System.EventHandler(this.BtnInsertar_Click);
-            // 
-            // BtnCancelar
-            // 
-            this.BtnCancelar.Location = new System.Drawing.Point(450, 333);
-            this.BtnCancelar.Name = "BtnCancelar";
-            this.BtnCancelar.Size = new System.Drawing.Size(287, 57);
-            this.BtnCancelar.TabIndex = 7;
-            this.BtnCancelar.Text = "Cancelar";
-            this.BtnCancelar.UseVisualStyleBackColor = true;
-            this.BtnCancelar.Click += new System.EventHandler(this.BtnCancelar_Click);
-            // 
-            // ErrorIcono
-            // 
-            this.ErrorIcono.ContainerControl = this;
             // 
             // BtnActualizar
             // 
@@ -239,6 +212,80 @@
             this.BtnActualizar.UseVisualStyleBackColor = true;
             this.BtnActualizar.Click += new System.EventHandler(this.BtnActualizar_Click);
             // 
+            // BtnCancelar
+            // 
+            this.BtnCancelar.Location = new System.Drawing.Point(450, 333);
+            this.BtnCancelar.Name = "BtnCancelar";
+            this.BtnCancelar.Size = new System.Drawing.Size(287, 57);
+            this.BtnCancelar.TabIndex = 7;
+            this.BtnCancelar.Text = "Cancelar";
+            this.BtnCancelar.UseVisualStyleBackColor = true;
+            this.BtnCancelar.Click += new System.EventHandler(this.BtnCancelar_Click);
+            // 
+            // BtnInsertar
+            // 
+            this.BtnInsertar.Location = new System.Drawing.Point(138, 333);
+            this.BtnInsertar.Name = "BtnInsertar";
+            this.BtnInsertar.Size = new System.Drawing.Size(280, 57);
+            this.BtnInsertar.TabIndex = 6;
+            this.BtnInsertar.Text = "Insertar";
+            this.BtnInsertar.UseVisualStyleBackColor = true;
+            this.BtnInsertar.Click += new System.EventHandler(this.BtnInsertar_Click);
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(135, 294);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(214, 16);
+            this.label3.TabIndex = 5;
+            this.label3.Text = "(*) Indica que el dato es obligatorio";
+            // 
+            // TxtId
+            // 
+            this.TxtId.Location = new System.Drawing.Point(604, 47);
+            this.TxtId.Name = "TxtId";
+            this.TxtId.Size = new System.Drawing.Size(133, 22);
+            this.TxtId.TabIndex = 4;
+            this.TxtId.Visible = false;
+            // 
+            // TxtDescripcion
+            // 
+            this.TxtDescripcion.Location = new System.Drawing.Point(138, 148);
+            this.TxtDescripcion.Multiline = true;
+            this.TxtDescripcion.Name = "TxtDescripcion";
+            this.TxtDescripcion.Size = new System.Drawing.Size(599, 84);
+            this.TxtDescripcion.TabIndex = 3;
+            // 
+            // TxtNombre
+            // 
+            this.TxtNombre.Location = new System.Drawing.Point(138, 85);
+            this.TxtNombre.Name = "TxtNombre";
+            this.TxtNombre.Size = new System.Drawing.Size(599, 22);
+            this.TxtNombre.TabIndex = 2;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(48, 148);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(79, 16);
+            this.label2.TabIndex = 1;
+            this.label2.Text = "Descripcion";
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(48, 85);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(69, 16);
+            this.label1.TabIndex = 0;
+            this.label1.Text = "Nombre(*)";
+            // 
+            // ErrorIcono
+            // 
+            this.ErrorIcono.ContainerControl = this;
+            // 
             // FrmCategoria
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -246,7 +293,7 @@
             this.BackColor = System.Drawing.SystemColors.Window;
             this.ClientSize = new System.Drawing.Size(1323, 639);
             this.Controls.Add(this.TabGeneral);
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "FrmCategoria";
             this.Text = "Categorias";
             this.Load += new System.EventHandler(this.FrmCategoria_Load);
@@ -281,5 +328,9 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.ErrorProvider ErrorIcono;
         private System.Windows.Forms.Button BtnActualizar;
+        private System.Windows.Forms.Button BtnEliminar;
+        private System.Windows.Forms.Button BtnDesactivar;
+        private System.Windows.Forms.Button BtnActivar;
+        private System.Windows.Forms.CheckBox ChkSeleccion;
     }
 }

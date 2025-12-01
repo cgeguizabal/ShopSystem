@@ -68,6 +68,14 @@ namespace Sistema.Presentation
             BtnInsertar.Visible = true;
             BtnActualizar.Visible = false;
             ErrorIcono.Clear();
+
+
+            DgvListado.Columns[0].Visible = false;
+            BtnActivar.Visible = false;
+            BtnDesactivar.Visible = false;
+            BtnDesactivar.Visible = false;
+            BtnEliminar.Visible = false;
+            ChkSeleccion.Checked = false;
         }
         private void MensajeError(string mensaje)
         {
@@ -129,16 +137,22 @@ namespace Sistema.Presentation
 
         private void DgvListado_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
-            this.Limpiar();
-            BtnInsertar.Visible = false;
-            BtnActualizar.Visible = true;
+            try
+            {
+                this.Limpiar();
+                BtnInsertar.Visible = false;
+                BtnActualizar.Visible = true;
 
-            TxtId.Text = Convert.ToString(DgvListado.CurrentRow.Cells["ID"].Value);
-            this.NombreAnt = Convert.ToString(DgvListado.CurrentRow.Cells["Nombre"].Value);
-            TxtNombre.Text = Convert.ToString(DgvListado.CurrentRow.Cells["Nombre"].Value);
-            TxtDescripcion.Text = Convert.ToString(DgvListado.CurrentRow.Cells["Descripcion"].Value);
-            TabGeneral.SelectedIndex = 1;
-        }
+                TxtId.Text = Convert.ToString(DgvListado.CurrentRow.Cells["ID"].Value);
+                this.NombreAnt = Convert.ToString(DgvListado.CurrentRow.Cells["Nombre"].Value);
+                TxtNombre.Text = Convert.ToString(DgvListado.CurrentRow.Cells["Nombre"].Value);
+                TxtDescripcion.Text = Convert.ToString(DgvListado.CurrentRow.Cells["Descripcion"].Value);
+                TabGeneral.SelectedIndex = 1;
+            } catch (Exception) 
+            {
+                MessageBox.Show("Seleccione desde la celda nombre"); //Show error message if exception occurs
+              }
+            }
 
         private void BtnActualizar_Click(object sender, EventArgs e)
         {
@@ -172,6 +186,35 @@ namespace Sistema.Presentation
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message + ex.StackTrace); //Show error message if exception occurs
+            }
+        }
+
+        private void ChkSeleccion_CheckedChanged(object sender, EventArgs e)
+        {
+            if (ChkSeleccion.Checked)
+            {
+                DgvListado.Columns[0].Visible = true;
+                BtnActivar.Visible = true;
+                BtnDesactivar.Visible = true;
+                BtnDesactivar.Visible   = true;
+                BtnEliminar.Visible = true;
+            }
+            else
+            {
+                DgvListado.Columns[0].Visible = false;
+                BtnActivar.Visible = false;
+                BtnDesactivar.Visible = false;
+                BtnDesactivar.Visible = false;
+                BtnEliminar.Visible = false;
+            }
+        }
+
+        private void DgvListado_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if(e.ColumnIndex == DgvListado.Columns["Seleccionar"].Index)
+            {
+                DataGridViewCheckBoxCell ChkEliminar = (DataGridViewCheckBoxCell)DgvListado.Rows[e.RowIndex].Cells["Seleccionar"];
+                ChkEliminar.Value = !Convert.ToBoolean(ChkEliminar.Value);
             }
         }
     }
