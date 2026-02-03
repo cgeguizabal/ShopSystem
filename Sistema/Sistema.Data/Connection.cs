@@ -23,8 +23,8 @@ namespace Sistema.Data
             // Constructor privado para evitar instanciación externa
             this.Base = "dbsistema";
             this.Server = @"(local)\SQLEXPRESS";
-            this.User = "sa";
-            this.Password = "Cgeo14051997";
+            this.User = "MyTestUser";
+            this.Password = "14051997";
             this.Security = true;
         }
         
