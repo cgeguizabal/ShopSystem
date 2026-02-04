@@ -1,6 +1,6 @@
 ﻿using Sistema.Business;
 using System;
-
+using System.Drawing;
 using System.Windows.Forms;
 
 
@@ -8,6 +8,10 @@ namespace Sistema.Presentation
 {
     public partial class FrmArticulo : Form
     {
+        private string RutaOrigen; // Variable to store the original path of the image.
+        private string RutaDestino; // Variable to store the destination path where the image will be saved.
+        private string Directorio = "C:\\Users\\interguia\\source\\repos\\cgeguizabal\\ShopSystem"; // Directory where images will be stored.
+
         public FrmArticulo()
         {
             InitializeComponent();
@@ -102,14 +106,43 @@ namespace Sistema.Presentation
             MessageBox.Show(mensaje, "Sistema de Ventas", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
+        private void CargarCategoria()
+        {
+            try
+            {
+
+                CboCategoria.DataSource = NCategoria.Seleccionar();
+                CboCategoria.ValueMember = "IdCategoria";
+                CboCategoria.DisplayMember = "Nombre";
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message + ex.StackTrace);
+            }
+        }
+
         private void FrmArticulo_Load(object sender, EventArgs e)
         {
             this.Listar();
+            this.CargarCategoria();
         }
 
         private void BtnBuscar_Click(object sender, EventArgs e)
         {
             this.Buscar();
+        }
+
+        private void BtnCargarImagen_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog file = new OpenFileDialog();
+            file.Filter = "Image files (*.jpg, *.jpeg, *.png) | *.jpg; *.jpeg; *.png";
+            if(file.ShowDialog() == DialogResult.OK)
+            {
+                PicImagen.Image= Image.FromFile(file.FileName);
+                TxtImagen.Text = file.FileName.Substring(file.FileName.LastIndexOf("\\") + 1);
+                this.RutaOrigen = file.FileName;
+            }
         }
     }
 }

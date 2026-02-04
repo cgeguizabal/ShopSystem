@@ -28,6 +28,12 @@ namespace Sistema.Business // Here I create the business logic layer namespace, 
             return Datos.Buscar(Valor); //This line calls the Buscar method from DCategoria class
         }
 
+        public static DataTable Seleccionar()
+        {
+            DCategoria Datos = new DCategoria();
+            return Datos.Seleccionar(); //This line calls the Listar method from DCategoria class
+        }
+
         // Inserts a new category.
         // First checks if a category with the same name already exists using the Existe method.
         // If it exists, returns a message indicating duplication.
