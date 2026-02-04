@@ -57,6 +57,11 @@
             this.TxtImagen = new System.Windows.Forms.TextBox();
             this.BtnCargarImagen = new System.Windows.Forms.Button();
             this.PicImagen = new System.Windows.Forms.PictureBox();
+            this.label6 = new System.Windows.Forms.Label();
+            this.TxtCodigo = new System.Windows.Forms.TextBox();
+            this.BtnGenerar = new System.Windows.Forms.Button();
+            this.BtnGuardarCodigo = new System.Windows.Forms.Button();
+            this.PanelCodigo = new System.Windows.Forms.Panel();
             ((System.ComponentModel.ISupportInitialize)(this.ErrorIcono)).BeginInit();
             this.tabPage2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.DgvListado)).BeginInit();
@@ -71,7 +76,7 @@
             // 
             // BtnActualizar
             // 
-            this.BtnActualizar.Location = new System.Drawing.Point(104, 452);
+            this.BtnActualizar.Location = new System.Drawing.Point(104, 635);
             this.BtnActualizar.Margin = new System.Windows.Forms.Padding(2);
             this.BtnActualizar.Name = "BtnActualizar";
             this.BtnActualizar.Size = new System.Drawing.Size(210, 46);
@@ -81,7 +86,7 @@
             // 
             // BtnCancelar
             // 
-            this.BtnCancelar.Location = new System.Drawing.Point(338, 393);
+            this.BtnCancelar.Location = new System.Drawing.Point(338, 576);
             this.BtnCancelar.Margin = new System.Windows.Forms.Padding(2);
             this.BtnCancelar.Name = "BtnCancelar";
             this.BtnCancelar.Size = new System.Drawing.Size(215, 46);
@@ -91,7 +96,7 @@
             // 
             // BtnInsertar
             // 
-            this.BtnInsertar.Location = new System.Drawing.Point(104, 393);
+            this.BtnInsertar.Location = new System.Drawing.Point(104, 576);
             this.BtnInsertar.Margin = new System.Windows.Forms.Padding(2);
             this.BtnInsertar.Name = "BtnInsertar";
             this.BtnInsertar.Size = new System.Drawing.Size(210, 46);
@@ -102,7 +107,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(101, 361);
+            this.label3.Location = new System.Drawing.Point(101, 544);
             this.label3.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(170, 13);
@@ -120,7 +125,7 @@
             // 
             // TxtDescripcion
             // 
-            this.TxtDescripcion.Location = new System.Drawing.Point(104, 242);
+            this.TxtDescripcion.Location = new System.Drawing.Point(104, 425);
             this.TxtDescripcion.Margin = new System.Windows.Forms.Padding(2);
             this.TxtDescripcion.Multiline = true;
             this.TxtDescripcion.Name = "TxtDescripcion";
@@ -129,7 +134,7 @@
             // 
             // TxtNombre
             // 
-            this.TxtNombre.Location = new System.Drawing.Point(104, 191);
+            this.TxtNombre.Location = new System.Drawing.Point(108, 122);
             this.TxtNombre.Margin = new System.Windows.Forms.Padding(2);
             this.TxtNombre.Name = "TxtNombre";
             this.TxtNombre.Size = new System.Drawing.Size(450, 20);
@@ -138,7 +143,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(36, 242);
+            this.label2.Location = new System.Drawing.Point(36, 425);
             this.label2.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(63, 13);
@@ -147,6 +152,11 @@
             // 
             // tabPage2
             // 
+            this.tabPage2.Controls.Add(this.PanelCodigo);
+            this.tabPage2.Controls.Add(this.BtnGuardarCodigo);
+            this.tabPage2.Controls.Add(this.BtnGenerar);
+            this.tabPage2.Controls.Add(this.TxtCodigo);
+            this.tabPage2.Controls.Add(this.label6);
             this.tabPage2.Controls.Add(this.PicImagen);
             this.tabPage2.Controls.Add(this.BtnCargarImagen);
             this.tabPage2.Controls.Add(this.TxtImagen);
@@ -165,7 +175,7 @@
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(1636, 548);
+            this.tabPage2.Size = new System.Drawing.Size(1636, 697);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Mantenimiento";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -173,7 +183,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(36, 191);
+            this.label1.Location = new System.Drawing.Point(40, 122);
             this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(54, 13);
@@ -296,7 +306,7 @@
             this.TabGeneral.Location = new System.Drawing.Point(12, 12);
             this.TabGeneral.Name = "TabGeneral";
             this.TabGeneral.SelectedIndex = 0;
-            this.TabGeneral.Size = new System.Drawing.Size(1644, 574);
+            this.TabGeneral.Size = new System.Drawing.Size(1644, 723);
             this.TabGeneral.TabIndex = 1;
             // 
             // label4
@@ -352,11 +362,54 @@
             this.PicImagen.TabIndex = 14;
             this.PicImagen.TabStop = false;
             // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(38, 168);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(87, 13);
+            this.label6.TabIndex = 15;
+            this.label6.Text = "Codigo de barras";
+            // 
+            // TxtCodigo
+            // 
+            this.TxtCodigo.Location = new System.Drawing.Point(132, 168);
+            this.TxtCodigo.Name = "TxtCodigo";
+            this.TxtCodigo.Size = new System.Drawing.Size(421, 20);
+            this.TxtCodigo.TabIndex = 16;
+            // 
+            // BtnGenerar
+            // 
+            this.BtnGenerar.Location = new System.Drawing.Point(132, 195);
+            this.BtnGenerar.Name = "BtnGenerar";
+            this.BtnGenerar.Size = new System.Drawing.Size(194, 23);
+            this.BtnGenerar.TabIndex = 17;
+            this.BtnGenerar.Text = "Generar Codigo";
+            this.BtnGenerar.UseVisualStyleBackColor = true;
+            this.BtnGenerar.Click += new System.EventHandler(this.BtnGenerar_Click);
+            // 
+            // BtnGuardarCodigo
+            // 
+            this.BtnGuardarCodigo.Location = new System.Drawing.Point(359, 194);
+            this.BtnGuardarCodigo.Name = "BtnGuardarCodigo";
+            this.BtnGuardarCodigo.Size = new System.Drawing.Size(194, 23);
+            this.BtnGuardarCodigo.TabIndex = 18;
+            this.BtnGuardarCodigo.Text = "Guardar Codigo";
+            this.BtnGuardarCodigo.UseVisualStyleBackColor = true;
+            this.BtnGuardarCodigo.Click += new System.EventHandler(this.BtnGuardarCodigo_Click);
+            // 
+            // PanelCodigo
+            // 
+            this.PanelCodigo.Location = new System.Drawing.Point(132, 239);
+            this.PanelCodigo.Name = "PanelCodigo";
+            this.PanelCodigo.Size = new System.Drawing.Size(421, 150);
+            this.PanelCodigo.TabIndex = 19;
+            // 
             // FrmArticulo
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1679, 598);
+            this.ClientSize = new System.Drawing.Size(1679, 747);
             this.Controls.Add(this.TabGeneral);
             this.Name = "FrmArticulo";
             this.Text = "FrmArticulo";
@@ -403,5 +456,10 @@
         private System.Windows.Forms.Button BtnCargarImagen;
         private System.Windows.Forms.TextBox TxtImagen;
         private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Panel PanelCodigo;
+        private System.Windows.Forms.Button BtnGuardarCodigo;
+        private System.Windows.Forms.Button BtnGenerar;
+        private System.Windows.Forms.TextBox TxtCodigo;
     }
 }

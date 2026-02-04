@@ -2,6 +2,10 @@
 using System;
 using System.Drawing;
 using System.Windows.Forms;
+using BarcodeStandard;
+using SkiaSharp;
+using System.IO;
+using System.Drawing.Imaging;
 
 
 namespace Sistema.Presentation
@@ -155,6 +159,56 @@ namespace Sistema.Presentation
                 // Store the full path of the selected image in the RutaOrigen variable for later use (e.g., saving or copying).
                 this.RutaOrigen = file.FileName;
             }
+        }
+
+        private void BtnGenerar_Click(object sender, EventArgs e)
+        {
+
+            try
+            {
+                BarcodeStandard.Barcode Codigo = new BarcodeStandard.Barcode();
+                Codigo.IncludeLabel = true;
+
+                // Genera el código de barras como SKImage
+                SKImage skImage = Codigo.Encode(
+                    BarcodeStandard.Type.Code128,
+                    "123456",
+                    SKColors.Black,
+                    SKColors.White,
+                    300,
+                    100
+                );
+
+                // Convierte SKImage a System.Drawing.Image para el PictureBox
+                using (SKData data = skImage.Encode(SKEncodedImageFormat.Png, 100))
+                using (MemoryStream ms = new MemoryStream(data.ToArray()))
+                {
+                    Bitmap bitmap = new Bitmap(ms);
+                    PanelCodigo.BackgroundImage = bitmap;  
+                    PanelCodigo.BackgroundImageLayout = ImageLayout.Zoom; // Ajusta el tamaño
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al generar código de barras: " + ex.Message);
+            }
+        }
+
+        private void BtnGuardarCodigo_Click(object sender, EventArgs e)
+        {
+            Image imgFinal = (Image)PanelCodigo.BackgroundImage.Clone();
+
+            SaveFileDialog DialogGuardar = new SaveFileDialog();
+
+            DialogGuardar.AddExtension = true;
+            DialogGuardar.Filter = "PNG Image|*.png|JPEG Image|*.jpg|Bitmap Image|*.bmp";
+            DialogGuardar.ShowDialog();
+            if(!string.IsNullOrEmpty(DialogGuardar.FileName))
+            {
+                imgFinal.Save(DialogGuardar.FileName, ImageFormat.Png);
+            }
+            imgFinal.Dispose();
+
         }
     }
 }
