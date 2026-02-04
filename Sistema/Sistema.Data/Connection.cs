@@ -8,62 +8,78 @@ using System.Data.SqlClient;
 
 namespace Sistema.Data
 {
-    public class Connection // Here I create the Connection class to manage the database connection
+    // This class manages the database connection using the Singleton pattern
+    public class Connection
     {
-        private string Base;
-        private string Server;
-        private string User;
-        private string Password;
-        private bool Security;
+        // Private fields to store connection parameters
+        private string Base;     // Database name
+        private string Server;   // Server name or address
+        private string User;     // Username for SQL authentication
+        private string Password; // Password for SQL authentication
+        private bool Security;   // If true, use Windows Authentication (Integrated Security)
 
+        // Static field to hold the single instance of this class (Singleton pattern)
         private static Connection con = null;
 
+        // Private constructor to prevent external instantiation
         private Connection()
         {
-            // Constructor privado para evitar instanciación externa
-            this.Base = "dbsistema";
-            this.Server = @"(local)\SQLEXPRESS";
-            this.User = "MyTestUser";
-            this.Password = "14051997";
-            this.Security = true;
+            // Initialize connection parameters
+            this.Base = "dbsistema"; // Name of the database
+            this.Server = "DESKTOP-MFB8UPO\\INTERGUIASQL"; // SQL Server instance
+            this.User = "MyTestUser"; // SQL Server username
+            this.Password = "14051997"; // SQL Server password
+            this.Security = true; // Use Windows Authentication if true
         }
-        
 
-        public SqlConnection CreateConnection() {
-        SqlConnection cadena = new SqlConnection();
+        // This method creates and returns a SqlConnection object configured with the connection string
+        // sqlConnection is a class type that allows us to connect to a SQL Server database
+        public SqlConnection CreateConnection()
+        {
+            // 'SqlConnection' is a .NET class representing a connection to a SQL Server database.
+            // Here, we create a new instance using its default constructor (no parameters).
+            SqlConnection cadena = new SqlConnection();
+
             try
-            { 
+            {
+                // Build the base of the connection string with server and database
                 cadena.ConnectionString = "Server=" + this.Server + ";Database=" + this.Base + ";";
-                //Standard Security
-                // Server=myServerAddress;Database=myDataBase;
-                if (this.Security) //Windows Security authentication
+
+                // If using Windows Authentication (Integrated Security)
+                if (this.Security)
                 {
+                    // Append Integrated Security to the connection string
                     cadena.ConnectionString = cadena.ConnectionString + "Integrated Security=SSPI;";
                 }
                 else
                 {
+                    // Otherwise, use SQL Server authentication with username and password
                     cadena.ConnectionString = cadena.ConnectionString + "User Id=" + this.User + ";Password=" + this.Password + ";";
-                                                                      //User Id = myUsername; Password = myPassword;
                 }
-                
-                    
-                
             }
             catch (Exception ex)
             {
+                // If an error occurs, set the connection object to null and rethrow the exception
                 cadena = null;
                 throw ex;
             }
+
+            // Return the configured SqlConnection object
             return cadena;
         }
+
+        // Static method to get the single instance of the Connection class (Singleton pattern)
         public static Connection GetInstance()
         {
+            // If the instance does not exist, create it
             if (con == null)
             {
                 con = new Connection();
             }
+            // Return the single instance
             return con;
         }
     }
 
 }
+,,
