@@ -135,12 +135,24 @@ namespace Sistema.Presentation
 
         private void BtnCargarImagen_Click(object sender, EventArgs e)
         {
+            // Create a new OpenFileDialog instance to allow the user to select an image file.
             OpenFileDialog file = new OpenFileDialog();
+
+            // Set the filter to only show image files with .jpg, .jpeg, or .png extensions.
             file.Filter = "Image files (*.jpg, *.jpeg, *.png) | *.jpg; *.jpeg; *.png";
-            if(file.ShowDialog() == DialogResult.OK)
+
+            // Show the file dialog and check if the user clicked OK (selected a file).
+            if (file.ShowDialog() == DialogResult.OK)
             {
-                PicImagen.Image= Image.FromFile(file.FileName);
+                // Load the selected image file into the PictureBox control (PicImagen).
+                // Image.FromFile creates an Image object from the file path provided.
+                PicImagen.Image = Image.FromFile(file.FileName);
+
+                // Extract the file name (without the path) and set it in the TxtImagen textbox.
+                // file.FileName.LastIndexOf("\\") finds the last backslash, so Substring gets the file name only.
                 TxtImagen.Text = file.FileName.Substring(file.FileName.LastIndexOf("\\") + 1);
+
+                // Store the full path of the selected image in the RutaOrigen variable for later use (e.g., saving or copying).
                 this.RutaOrigen = file.FileName;
             }
         }
