@@ -20,6 +20,8 @@ namespace Sistema.Presentation
         // Directory path where images will be stored by default.
         private string Directorio = "C:\\Users\\interguia\\source\\repos\\cgeguizabal\\ShopSystem";
 
+        private string NombreAnt;
+
         // Constructor for the form. Initializes all UI components and event handlers.
         public FrmArticulo()
         {
@@ -351,7 +353,7 @@ namespace Sistema.Presentation
                         {
                             // Set the destination path using Path.Combine for proper path handling.
                             // This avoids issues with missing or extra path separators.
-                            this.RutaDestino = Path.Combine(this.Directorio, TxtImagen.Text);
+                            this.RutaDestino = Path.Combine(this.Directorio,  TxtImagen.Text);
 
                             // Check if source file exists before attempting to copy.
                             if (File.Exists(this.RutaOrigen))
@@ -395,6 +397,157 @@ namespace Sistema.Presentation
             {
                 // Catch any unexpected exceptions and show a detailed error message with stack trace.
                 // This is a last-resort error handler to prevent the application from crashing.
+                MessageBox.Show(ex.Message + ex.StackTrace);
+            }
+        }
+
+        private void DgvListado_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            try {
+
+                this.Limpiar();
+                BtnInsertar.Visible = false;
+                BtnActualizar.Visible = true;
+                TxtId.Text = Convert.ToString(DgvListado.CurrentRow.Cells["ID"].Value);
+                CboCategoria.SelectedValue = Convert.ToString(DgvListado.CurrentRow.Cells["IdCategoria"].Value);
+                TxtCodigo.Text = Convert.ToString(DgvListado.CurrentRow.Cells["Codigo"].Value);
+                this.NombreAnt = Convert.ToString(DgvListado.CurrentRow.Cells["Nombre"].Value);
+                TxtNombre.Text = Convert.ToString(DgvListado.CurrentRow.Cells["Nombre"].Value);
+                TxtPrecioVenta.Text = Convert.ToString(DgvListado.CurrentRow.Cells["Precio_Venta"].Value);
+                TxtStock.Text = Convert.ToString(DgvListado.CurrentRow.Cells["Stock"].Value);
+                TxtDescripcion.Text = Convert.ToString(DgvListado.CurrentRow.Cells["Descripcion"].Value);
+                string Imagen;
+                Imagen = Convert.ToString(DgvListado.CurrentRow.Cells["Imagen"].Value);
+
+                if(Imagen != string.Empty)
+                {
+                    PicImagen.Image = Image.FromFile(this.Directorio + "\\" + Imagen);
+                    TxtImagen.Text = Imagen;
+                }
+                else
+                {
+                    PicImagen.Image = null;
+                    TxtImagen.Text = "";
+                }
+                TabGeneral.SelectedIndex = 1;
+            } catch(Exception ex) {
+                MessageBox.Show("Seleccione desde la celda." + " | Error: " + ex.Message);
+            }
+        }
+
+        private void BtnActualizar_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                // Clear previous error icons
+                ErrorIcono.Clear();
+                bool isValid = true;
+
+                // Validate ID
+                if (string.IsNullOrWhiteSpace(TxtId.Text))
+                {
+                    ErrorIcono.SetError(TxtId, "Seleccione un registro para actualizar");
+                    isValid = false;
+                }
+
+                // Validate category selection
+                if (CboCategoria.SelectedValue == null || string.IsNullOrWhiteSpace(CboCategoria.Text))
+                {
+                    ErrorIcono.SetError(CboCategoria, "Seleccione una categoria");
+                    isValid = false;
+                }
+
+                // Validate name
+                if (string.IsNullOrWhiteSpace(TxtNombre.Text))
+                {
+                    ErrorIcono.SetError(TxtNombre, "Ingrese un nombre");
+                    isValid = false;
+                }
+
+                // Validate price
+                if (string.IsNullOrWhiteSpace(TxtPrecioVenta.Text))
+                {
+                    ErrorIcono.SetError(TxtPrecioVenta, "Ingrese un precio de venta");
+                    isValid = false;
+                }
+                else if (!decimal.TryParse(TxtPrecioVenta.Text, out decimal precioVenta) || precioVenta < 0)
+                {
+                    ErrorIcono.SetError(TxtPrecioVenta, "Ingrese un precio de venta válido (número positivo)");
+                    isValid = false;
+                }
+
+                // Validate stock
+                if (string.IsNullOrWhiteSpace(TxtStock.Text))
+                {
+                    ErrorIcono.SetError(TxtStock, "Ingrese el stock");
+                    isValid = false;
+                }
+                else if (!int.TryParse(TxtStock.Text, out int stock) || stock < 0)
+                {
+                    ErrorIcono.SetError(TxtStock, "Ingrese un stock válido (número entero positivo)");
+                    isValid = false;
+                }
+
+                if (!isValid)
+                {
+                    this.MensajeError("Falta ingresar algunos datos, serán remarcados");
+                    return;
+                }
+
+                // All validations passed, proceed with update
+                string Rpta = NArticulo.Actualizar(
+                    Convert.ToInt32(TxtId.Text),
+                    Convert.ToInt32(CboCategoria.SelectedValue),
+                    TxtCodigo.Text.Trim(),
+                    this.NombreAnt,
+                    TxtNombre.Text.Trim(),
+                    Convert.ToDecimal(TxtPrecioVenta.Text),
+                    Convert.ToInt32(TxtStock.Text),
+                    TxtDescripcion.Text.Trim(),
+                    TxtImagen.Text.Trim()
+                );
+
+                if (Rpta.Equals("OK"))
+                {
+                    this.MensajeOk("Se actualizó de forma correcta el registro");
+
+                    // Handle image file copy if an image was selected
+                    if (!string.IsNullOrWhiteSpace(TxtImagen.Text) && !string.IsNullOrWhiteSpace(this.RutaOrigen))
+                    {
+                        try
+                        {
+                            this.RutaDestino = Path.Combine(this.Directorio, TxtImagen.Text);
+
+                            if (File.Exists(this.RutaOrigen))
+                            {
+                                string destinationDir = Path.GetDirectoryName(this.RutaDestino);
+                                if (!Directory.Exists(destinationDir))
+                                {
+                                    Directory.CreateDirectory(destinationDir);
+                                }
+                                File.Copy(this.RutaOrigen, this.RutaDestino, true);
+                            }
+                            else
+                            {
+                                this.MensajeError("El archivo de imagen seleccionado no existe");
+                            }
+                        }
+                        catch (Exception exFile)
+                        {
+                            this.MensajeError("Error al copiar la imagen: " + exFile.Message);
+                        }
+                    }
+
+                    
+                    this.Listar();
+                }
+                else
+                {
+                    this.MensajeError(Rpta);
+                }
+            }
+            catch (Exception ex)
+            {
                 MessageBox.Show(ex.Message + ex.StackTrace);
             }
         }
