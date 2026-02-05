@@ -2,8 +2,8 @@
 using System;
 using System.Drawing;
 using System.Windows.Forms;
-using BarcodeStandard;
-using SkiaSharp;
+using ZXing;
+using ZXing.Common;
 using System.IO;
 using System.Drawing.Imaging;
 
@@ -184,74 +184,101 @@ namespace Sistema.Presentation
         }
 
         // Event handler for the "Generate Barcode" button click event.
+        // Event handler for the "Generate Barcode" button click event.
         private void BtnGenerar_Click(object sender, EventArgs e)
         {
             try
             {
-                // Creates a new Barcode object from the BarcodeStandard library.
-                BarcodeStandard.Barcode Codigo = new BarcodeStandard.Barcode();
-
-                // Sets the IncludeLabel property to true, so the code value is displayed below the barcode.
-                Codigo.IncludeLabel = true;
-
-                // Generates the barcode as an SKImage (SkiaSharp image object).
-                // Parameters:
-                // - Barcode type (Code128 is a common alphanumeric barcode).
-                // - The code to encode ("123456" here, should be replaced with actual data).
-                // - Foreground color (black bars).
-                // - Background color (white).
-                // - Width and height in pixels.
-                SKImage skImage = Codigo.Encode(
-                    BarcodeStandard.Type.Code128,
-                    "123456",
-                    SKColors.Black,
-                    SKColors.White,
-                    300,
-                    100
-                );
-
-                // Converts the SKImage (SkiaSharp) to a System.Drawing.Bitmap for use in Windows Forms.
-                // SKImage.Encode encodes the image to PNG format and returns SKData (raw bytes).
-                using (SKData data = skImage.Encode(SKEncodedImageFormat.Png, 100))
-                // MemoryStream is used to read the PNG bytes into a .NET Bitmap.
-                using (MemoryStream ms = new MemoryStream(data.ToArray()))
+                // Validate that the code textbox has a value
+                if (string.IsNullOrWhiteSpace(TxtCodigo.Text))
                 {
-                    Bitmap bitmap = new Bitmap(ms); // Creates a Bitmap from the memory stream.
-                                                    // Sets the generated barcode image as the background image of the PanelCodigo control.
-                    PanelCodigo.BackgroundImage = bitmap;
-                    // Sets the layout to Zoom so the image fits the panel while maintaining aspect ratio.
-                    PanelCodigo.BackgroundImageLayout = ImageLayout.Zoom;
+                    this.MensajeError("Por favor ingrese un código antes de generar el código de barras");
+                    TxtCodigo.Focus();
+                    return;
                 }
+
+                // Create barcode writer with ZXing
+                var writer = new BarcodeWriter
+                {
+                    Format = BarcodeFormat.CODE_128,
+                    Options = new EncodingOptions
+                    {
+                        Width = 300,
+                        Height = 100,
+                        Margin = 10,
+                        PureBarcode = false // Shows the text below barcode
+                    }
+                };
+
+                // Generate barcode as Bitmap
+                Bitmap barcodeBitmap = writer.Write(TxtCodigo.Text.Trim());
+
+                // Dispose previous image to prevent memory leaks
+                if (PanelCodigo.BackgroundImage != null)
+                {
+                    PanelCodigo.BackgroundImage.Dispose();
+                }
+
+                // Set the new barcode
+                PanelCodigo.BackgroundImage = barcodeBitmap;
+                PanelCodigo.BackgroundImageLayout = ImageLayout.Zoom;
             }
             catch (Exception ex)
             {
-                // Shows a message box with the error message if barcode generation fails.
-                MessageBox.Show("Error al generar código de barras: " + ex.Message);
+                MessageBox.Show("Error al generar código de barras: " + ex.Message,
+                               "Sistema de Ventas",
+                               MessageBoxButtons.OK,
+                               MessageBoxIcon.Error);
             }
         }
 
         // Event handler for the "Save Barcode" button click event.
         private void BtnGuardarCodigo_Click(object sender, EventArgs e)
         {
-            // Clones the current barcode image from the PanelCodigo background to avoid locking the original image.
-            Image imgFinal = (Image)PanelCodigo.BackgroundImage.Clone();
-
-            // Creates a SaveFileDialog to allow the user to choose where to save the barcode image.
-            SaveFileDialog DialogGuardar = new SaveFileDialog();
-
-            DialogGuardar.AddExtension = true; // Automatically adds the file extension if the user omits it.
-                                               // Sets the filter to allow saving as PNG, JPEG, or BMP.
-            DialogGuardar.Filter = "PNG Image|*.png|JPEG Image|*.jpg|Bitmap Image|*.bmp";
-            DialogGuardar.ShowDialog(); // Shows the save file dialog.
-
-            // Checks if the user provided a file name (did not cancel).
-            if (!string.IsNullOrEmpty(DialogGuardar.FileName))
+            try
             {
-                // Saves the image to the selected file in PNG format.
-                // You can change ImageFormat to match the selected filter if needed.
-                imgFinal.Save(DialogGuardar.FileName, ImageFormat.Png);
+                // Check if barcode exists
+                if (PanelCodigo.BackgroundImage == null)
+                {
+                    this.MensajeError("Primero debe generar un código de barras");
+                    return;
+                }
+
+                // Clone the current barcode image
+                Image imgFinal = (Image)PanelCodigo.BackgroundImage.Clone();
+
+                // Create SaveFileDialog
+                SaveFileDialog DialogGuardar = new SaveFileDialog();
+                DialogGuardar.AddExtension = true;
+                DialogGuardar.Filter = "PNG Image|*.png|JPEG Image|*.jpg|Bitmap Image|*.bmp";
+                DialogGuardar.FileName = $"Barcode_{TxtCodigo.Text}"; // Default filename
+
+                if (DialogGuardar.ShowDialog() == DialogResult.OK)
+                {
+                    if (!string.IsNullOrEmpty(DialogGuardar.FileName))
+                    {
+                        // Determine format based on extension
+                        ImageFormat format = ImageFormat.Png;
+                        string ext = Path.GetExtension(DialogGuardar.FileName).ToLower();
+                        if (ext == ".jpg" || ext == ".jpeg")
+                            format = ImageFormat.Jpeg;
+                        else if (ext == ".bmp")
+                            format = ImageFormat.Bmp;
+
+                        imgFinal.Save(DialogGuardar.FileName, format);
+                        this.MensajeOk("Código de barras guardado correctamente");
+                    }
+                }
+
+                imgFinal.Dispose();
             }
-            imgFinal.Dispose(); // Releases resources used by the image.
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al guardar código de barras: " + ex.Message,
+                               "Sistema de Ventas",
+                               MessageBoxButtons.OK,
+                               MessageBoxIcon.Error);
+            }
         }
 
         private void BtnInsertar_Click(object sender, EventArgs e)

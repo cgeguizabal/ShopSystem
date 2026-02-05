@@ -236,9 +236,11 @@
             // PicImagen
             // 
             this.PicImagen.Location = new System.Drawing.Point(749, 74);
+            this.PicImagen.MaximumSize = new System.Drawing.Size(325, 240);
+            this.PicImagen.MinimumSize = new System.Drawing.Size(325, 240);
             this.PicImagen.Name = "PicImagen";
-            this.PicImagen.Size = new System.Drawing.Size(323, 237);
-            this.PicImagen.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+            this.PicImagen.Size = new System.Drawing.Size(325, 240);
+            this.PicImagen.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.PicImagen.TabIndex = 14;
             this.PicImagen.TabStop = false;
             // 
