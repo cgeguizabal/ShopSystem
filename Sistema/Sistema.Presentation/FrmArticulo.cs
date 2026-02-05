@@ -409,7 +409,7 @@ namespace Sistema.Presentation
                 BtnInsertar.Visible = false;
                 BtnActualizar.Visible = true;
                 TxtId.Text = Convert.ToString(DgvListado.CurrentRow.Cells["ID"].Value);
-                CboCategoria.SelectedValue = Convert.ToString(DgvListado.CurrentRow.Cells["IdCategoria"].Value);
+                CboCategoria.SelectedValue = Convert.ToInt32(DgvListado.CurrentRow.Cells["IdCategoria"].Value);
                 TxtCodigo.Text = Convert.ToString(DgvListado.CurrentRow.Cells["Codigo"].Value);
                 this.NombreAnt = Convert.ToString(DgvListado.CurrentRow.Cells["Nombre"].Value);
                 TxtNombre.Text = Convert.ToString(DgvListado.CurrentRow.Cells["Nombre"].Value);

@@ -71,7 +71,7 @@ namespace Sistema.Business
             {
                 // If the name hasn't changed, update directly.
                 Obj.IdArticulo = Id;
-                Obj.IdCategoria = Id; //Setting the IdCategoria property of Categoria object
+                Obj.IdCategoria = IdCategoria; //Setting the IdCategoria property of Categoria object
                 Obj.Codigo = Codigo;
                 Obj.Nombre = Nombre; //Setting the Nombre property of Categoria object
                 Obj.PrecioVenta = PrecioVenta;
@@ -94,7 +94,7 @@ namespace Sistema.Business
                 {
                     // Otherwise, update with the new name.
                     Obj.IdArticulo = Id;
-                    Obj.IdCategoria = Id; //Setting the IdCategoria property of Categoria object
+                    Obj.IdCategoria = IdCategoria; //Setting the IdCategoria property of Categoria object
                     Obj.Codigo = Codigo;
                     Obj.Nombre = Nombre; //Setting the Nombre property of Categoria object
                     Obj.PrecioVenta = PrecioVenta;
