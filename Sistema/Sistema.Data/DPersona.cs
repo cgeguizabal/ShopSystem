@@ -60,7 +60,7 @@ namespace Sistema.Data
                 SqlCon = Connection.GetInstance().CreateConnection();
                 // SqlCommand: .NET class used to execute SQL queries or stored procedures against SQL Server.
                 // Here, it is configured to execute the 'categoria_listar' stored procedure.
-                SqlCommand Comando = new SqlCommand("persona_listar_provedores", SqlCon);
+                SqlCommand Comando = new SqlCommand("persona_listar_proveedores", SqlCon);
                 Comando.CommandType = CommandType.StoredProcedure; // Specify that the command is a stored procedure.
                 SqlCon.Open(); // Open the database connection.
                 // Execute the command and get a SqlDataReader to read the results.

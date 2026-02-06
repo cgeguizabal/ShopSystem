@@ -129,13 +129,14 @@
             // provedoresToolStripMenuItem
             // 
             this.provedoresToolStripMenuItem.Name = "provedoresToolStripMenuItem";
-            this.provedoresToolStripMenuItem.Size = new System.Drawing.Size(133, 22);
+            this.provedoresToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.provedoresToolStripMenuItem.Text = "&Provedores";
+            this.provedoresToolStripMenuItem.Click += new System.EventHandler(this.provedoresToolStripMenuItem_Click);
             // 
             // comprasToolStripMenuItem
             // 
             this.comprasToolStripMenuItem.Name = "comprasToolStripMenuItem";
-            this.comprasToolStripMenuItem.Size = new System.Drawing.Size(133, 22);
+            this.comprasToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.comprasToolStripMenuItem.Text = "&Compras";
             // 
             // MnuVentas

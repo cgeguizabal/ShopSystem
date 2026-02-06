@@ -5,7 +5,7 @@ using System.Data;
 
 
 
-namespace Sistema.Buisiness
+namespace Sistema.Business
 {
     public class NPersona
     {
@@ -15,7 +15,7 @@ namespace Sistema.Buisiness
             return Datos.Listar(); //This line calls the Listar method from DUsuario class
         }
 
-        public static DataTable ListarProvedores()
+        public static DataTable ListarProveedores()
         {
             DPersona Datos = new DPersona();
             return Datos.ListarProveedores(); //This line calls the Listar method from DUsuario class
