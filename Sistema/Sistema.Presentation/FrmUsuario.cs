@@ -3,6 +3,7 @@ using System;
 
 using System.Windows.Forms;
 using System.Data;
+using Sistema.Buisiness;
 
 
 namespace Sistema.Presentation
@@ -14,12 +15,12 @@ namespace Sistema.Presentation
             InitializeComponent();
         }
 
-        private void Listar() //Method to list categories 
+        private void Listar() //Method to list users
         {
             try
             {
-                // Sets the DataSource of DgvListado to the result of NCategoria.Listar(), which returns all categories.
-                DgvListado.DataSource = NCategoria.Listar(); //Call to the business layer to get the list of categories
+                // Sets the DataSource of DgvListado to the result of NUsuario.Listar(), which returns all users.
+                DgvListado.DataSource = NUsuario.Listar(); //Call to the business layer to get the list of users
                 this.Limpiar(); // Clears all input fields and resets UI controls.
                 this.Formato(); // Formats the DataGridView columns (width, visibility, headers).
                                 // Updates the label to show the total number of records in the DataGridView.
@@ -32,13 +33,13 @@ namespace Sistema.Presentation
             }
         }
 
-        // Searches for categories based on the text in TxtBuscar.
-        private void Buscar() //Method to search categories
+        // Searches for users based on the text in TxtBuscar.
+        private void Buscar() //Method to search users
         {
             try
             {
-                // Sets the DataSource of DgvListado to the result of NCategoria.Buscar(), which returns matching categories.
-                DgvListado.DataSource = NCategoria.Buscar(TxtBuscar.Text); //Call to the business layer to search categories based on the text in TxtBuscar
+                // Sets the DataSource of DgvListado to the result of NUsuario.Buscar(), which returns matching users.
+                DgvListado.DataSource = NUsuario.Buscar(TxtBuscar.Text); //Call to the business layer to search users based on the text in TxtBuscar
                 this.Formato(); // Formats the DataGridView columns.
                                 // Updates the label to show the total number of records found.
                 LblTotal.Text = "Total registro: " + Convert.ToString(DgvListado.Rows.Count); //Display total number of records found
@@ -53,13 +54,22 @@ namespace Sistema.Presentation
         // Formats the DataGridView columns (visibility, width, header text).
         private void Formato()
         {
-            DgvListado.Columns[0].Visible = false; // Hides the first column (usually ID or selection).
-            DgvListado.Columns[1].Visible = false; // Hide the second column (could be internal data).
-            DgvListado.Columns[2].Width = 150; // Sets the width of the third column (e.g., Name).
-            DgvListado.Columns[3].Width = 400; // Sets the width of the fourth column (e.g., Description).
-            DgvListado.Columns[3].HeaderText = "Descripcion"; // Sets the header text of the fourth column.
-            DgvListado.Columns[4].Width = 100; // Sets the width of the fifth column (e.g., Status).
+            DgvListado.Columns[0].Visible = false; // Hides the first column (ID).
+            DgvListado.Columns[2].Visible = false; // Hides the third column (Password).
+            DgvListado.Columns[1].Width = 50; // Sets the width of the second column (Name).
+            DgvListado.Columns[3].Width = 100; // Sets the width of the fourth column (Email).
+            DgvListado.Columns[4].Width = 170; // Sets the width of the fifth column (Phone).
+            DgvListado.Columns[5].Width = 100; // Sets the width of the sixth column (Address).
+            DgvListado.Columns[5].HeaderText = "Documento"; // Sets the header text of the sixth column to "Documento".
+            DgvListado.Columns[6].Width = 100; // Sets the width of the seventh column (Document Number).
+            DgvListado.Columns[6].HeaderText = "Número Documento"; // Sets the header text of the seventh column to "Número Documento".
+            DgvListado.Columns[7].Width = 120; 
+            DgvListado.Columns[7].HeaderText = "Direccion"; // Sets the header text of the eighth column to "Direccion".
+            DgvListado.Columns[8].Width = 100; 
+            DgvListado.Columns[8].HeaderText = "Telefono"; // Sets the header text of the ninth column to "Rol".
+            DgvListado.Columns[9].Width = 120;
         }
+       
 
         // Clears all input fields and resets UI controls to their default state.
         private void Limpiar()
@@ -93,6 +103,12 @@ namespace Sistema.Presentation
 
         private void FrmUsuario_Load(object sender, EventArgs e)
         {
+            this.Listar(); // When the form loads, call the Listar method to populate the DataGridView with users.
+        }
+
+        private void BtnBuscar_Click(object sender, EventArgs e)
+        {
+            this.Buscar(); // When the search button is clicked, call the Buscar method to search for users based on the text in TxtBuscar.
 
         }
     }
