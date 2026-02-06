@@ -71,9 +71,7 @@ namespace Sistema.Data
                 if (SqlCon.State == ConnectionState.Open) SqlCon.Close(); // Close the connection if it is open
             }
         }
-
-        
-
+    
         public string Existe(string Valor)
         {
             // Variable to store the response (will contain the output value or an error message)

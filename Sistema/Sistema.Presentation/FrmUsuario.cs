@@ -10,6 +10,8 @@ namespace Sistema.Presentation
 {
     public partial class FrmUsuario : Form
     {
+        private string EmailAnt;
+
         public FrmUsuario()
         {
             InitializeComponent();
@@ -184,6 +186,268 @@ namespace Sistema.Presentation
                 MessageBox.Show(ex.Message + ex.StackTrace);
             }
         }
-             
+
+        private void BtnCancelar_Click(object sender, EventArgs e)
+        {
+            this.Limpiar(); // When the cancel button is clicked, call the Limpiar method to clear all input fields and reset the UI controls.
+          TabGeneral.SelectedIndex = 0; // Switches back to the main tab (index 0).
+        }
+
+        private void DgvListado_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+            try
+            {
+                this.Limpiar(); // Clears all input fields and resets UI controls.
+                BtnInsertar.Visible = false; // Hides the Insert button.
+                BtnActualizar.Visible = true; // Shows the Update button.
+
+                // Load the selected user's data into the respective controls
+                TxtId.Text = Convert.ToString(DgvListado.CurrentRow.Cells["ID"].Value);
+                CboRoles.SelectedValue = Convert.ToInt32(DgvListado.CurrentRow.Cells["idrol"].Value);
+                TxtNombre.Text = Convert.ToString(DgvListado.CurrentRow.Cells["Nombre"].Value);
+                CboTipoDocumento.Text = Convert.ToString(DgvListado.CurrentRow.Cells["Tipo_documento"].Value);
+                TxtNumeroDocumento.Text = Convert.ToString(DgvListado.CurrentRow.Cells["num_documento"].Value);
+                TxtDireccion.Text = Convert.ToString(DgvListado.CurrentRow.Cells["Direccion"].Value);
+                TxtTelefono.Text = Convert.ToString(DgvListado.CurrentRow.Cells["Telefono"].Value);
+                this.EmailAnt = Convert.ToString(DgvListado.CurrentRow.Cells["Email"].Value); // Store the previous email for update validation
+                TxtEmail.Text = Convert.ToString(DgvListado.CurrentRow.Cells["Email"].Value);
+
+                TabGeneral.SelectedIndex = 1; // Switches to the edit tab (index 1).
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Seleccione desde la celda nombre"); // Show error message if exception occurs
+            }
+        }
+
+        private void BtnActualizar_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                string Rpta = "";
+                if (TxtId.Text == string.Empty || CboRoles.Text == string.Empty || TxtNombre.Text == string.Empty || TxtEmail.Text == string.Empty)
+                {
+                    this.MensajeError("Falta ingresar algunos datos, serán remarcados.");
+                    ErrorIcono.SetError(CboRoles, "Seleccione un rol.");
+                    ErrorIcono.SetError(TxtNombre, "Ingrese un nombre.");
+                    ErrorIcono.SetError(TxtEmail, "Ingrese un email.");
+                }
+                else
+                {
+                    Rpta = NUsuario.Actualizar(Convert.ToInt32(TxtId.Text), Convert.ToInt32(CboRoles.SelectedValue), 
+                        TxtNombre.Text.Trim(), CboTipoDocumento.Text, TxtNumeroDocumento.Text.Trim(), TxtDireccion.Text.Trim(),
+                        TxtTelefono.Text.Trim(), this.EmailAnt, TxtEmail.Text.Trim(), TxtClave.Text.Trim());
+                    if (Rpta.Equals("OK"))
+                    {
+                        this.MensajeOk("Se actualizó de forma correcta el registro");
+                        this.Limpiar();
+                        this.Listar();
+                    }
+                    else
+                    {
+                        this.MensajeError(Rpta);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message + ex.StackTrace);
+            }
+        
+        }
+
+        private void DgvListado_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.ColumnIndex == DgvListado.Columns["Seleccionar"].Index)
+            {
+                // Toggles the checkbox value for the clicked row.
+                DataGridViewCheckBoxCell ChkEliminar = (DataGridViewCheckBoxCell)DgvListado.Rows[e.RowIndex].Cells["Seleccionar"];
+                ChkEliminar.Value = !Convert.ToBoolean(ChkEliminar.Value);
+            }
+        }
+
+        private void ChkSeleccion_CheckedChanged(object sender, EventArgs e)
+        {
+            if (ChkSeleccion.Checked)
+            {
+                DgvListado.Columns[0].Visible = true; // Shows the selection column.
+                BtnActivar.Visible = true; // Shows the Activate button.
+                BtnDesactivar.Visible = true; // Shows the Deactivate button.
+                BtnEliminar.Visible = true; // Shows the Delete button.
+            }
+            else
+            {
+                DgvListado.Columns[0].Visible = false; // Hides the selection column.
+                BtnActivar.Visible = false; // Hides the Activate button.
+                BtnDesactivar.Visible = false; // Hides the Deactivate button.
+                BtnEliminar.Visible = false; // Hides the Delete button.
+            }
+        }
+
+        private void BtnEliminar_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                DialogResult Opcion;
+                // Show a confirmation dialog to the user before deleting categories.
+                // The dialog displays a question icon and OK/Cancel buttons.
+                Opcion = MessageBox.Show(
+                    "Realmente deseas eliminar este Usuario?", // Message to display
+                    "Sistema de Ventas",                        // Title of the dialog window
+                    MessageBoxButtons.OKCancel,                 // Show OK and Cancel buttons
+                    MessageBoxIcon.Question                     // Show a question icon
+                );
+
+                // If the user clicks OK, proceed with deletion.
+                if (Opcion == DialogResult.OK)
+                {
+                    int Codigo; // Variable to store the category ID to delete
+                    string Rpta = ""; // Variable to store the response from the business layer
+
+                    // Iterate through all rows in the DataGridView.
+                    foreach (DataGridViewRow row in DgvListado.Rows)
+                    {
+                        // Check if the selection checkbox is checked for this row.
+                        if (Convert.ToBoolean(row.Cells[0].Value))
+                        {
+                            // Get the category ID from the second column (index 1).
+                            Codigo = Convert.ToInt32(row.Cells[1].Value);
+                            // Call the business layer to delete the category by ID.
+                            Rpta = NUsuario.Eliminar(Codigo);
+
+                            // If the deletion was successful, show a success message with the category name.
+                            if (Rpta.Equals("OK"))
+                            {
+                                this.MensajeOk("Se eliminó correctamente el registro " + Convert.ToString(row.Cells[4].Value));
+                            }
+                            else
+                            {
+                                // If there was an error, show the error message.
+                                this.MensajeError(Rpta);
+                            }
+                        }
+                    }
+
+                    // Refresh the category list after deletion.
+                    this.Listar();
+                }
+            }
+            catch (Exception ex)
+            {
+                // Show a message box with the error message and stack trace if an exception occurs.
+                MessageBox.Show(ex.Message + ex.StackTrace);
+            }
+        }
+
+        private void BtnDesactivar_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                DialogResult Opcion;
+                // Show a confirmation dialog to the user before deleting categories.
+                // The dialog displays a question icon and OK/Cancel buttons.
+                Opcion = MessageBox.Show(
+                    "Realmente deseas Desactivar este Usuario?", // Message to display
+                    "Sistema de Ventas",                        // Title of the dialog window
+                    MessageBoxButtons.OKCancel,                 // Show OK and Cancel buttons
+                    MessageBoxIcon.Question                     // Show a question icon
+                );
+
+                // If the user clicks OK, proceed with deletion.
+                if (Opcion == DialogResult.OK)
+                {
+                    int Codigo; // Variable to store the category ID to delete
+                    string Rpta = ""; // Variable to store the response from the business layer
+
+                    // Iterate through all rows in the DataGridView.
+                    foreach (DataGridViewRow row in DgvListado.Rows)
+                    {
+                        // Check if the selection checkbox is checked for this row.
+                        if (Convert.ToBoolean(row.Cells[0].Value))
+                        {
+                            // Get the category ID from the second column (index 1).
+                            Codigo = Convert.ToInt32(row.Cells[1].Value);
+                            // Call the business layer to delete the category by ID.
+                            Rpta = NUsuario.Desactivar(Codigo);
+
+                            // If the deletion was successful, show a success message with the category name.
+                            if (Rpta.Equals("OK"))
+                            {
+                                this.MensajeOk("Se desactivo correctamente el registro " + Convert.ToString(row.Cells[4].Value));
+                            }
+                            else
+                            {
+                                // If there was an error, show the error message.
+                                this.MensajeError(Rpta);
+                            }
+                        }
+                    }
+
+                    // Refresh the category list after deletion.
+                    this.Listar();
+                }
+            }
+            catch (Exception ex)
+            {
+                // Show a message box with the error message and stack trace if an exception occurs.
+                MessageBox.Show(ex.Message + ex.StackTrace);
+            }
+        }
+
+        private void BtnActivar_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                DialogResult Opcion;
+                // Show a confirmation dialog to the user before deleting categories.
+                // The dialog displays a question icon and OK/Cancel buttons.
+                Opcion = MessageBox.Show(
+                    "Realmente deseas activar este Usuario?", // Message to display
+                    "Sistema de Ventas",                        // Title of the dialog window
+                    MessageBoxButtons.OKCancel,                 // Show OK and Cancel buttons
+                    MessageBoxIcon.Question                     // Show a question icon
+                );
+
+                // If the user clicks OK, proceed with deletion.
+                if (Opcion == DialogResult.OK)
+                {
+                    int Codigo; // Variable to store the category ID to delete
+                    string Rpta = ""; // Variable to store the response from the business layer
+
+                    // Iterate through all rows in the DataGridView.
+                    foreach (DataGridViewRow row in DgvListado.Rows)
+                    {
+                        // Check if the selection checkbox is checked for this row.
+                        if (Convert.ToBoolean(row.Cells[0].Value))
+                        {
+                            // Get the category ID from the second column (index 1).
+                            Codigo = Convert.ToInt32(row.Cells[1].Value);
+                            // Call the business layer to delete the category by ID.
+                            Rpta = NUsuario.Activar(Codigo);
+
+                            // If the deletion was successful, show a success message with the category name.
+                            if (Rpta.Equals("OK"))
+                            {
+                                this.MensajeOk("Se activo correctamente el registro " + Convert.ToString(row.Cells[4].Value));
+                            }
+                            else
+                            {
+                                // If there was an error, show the error message.
+                                this.MensajeError(Rpta);
+                            }
+                        }
+                    }
+
+                    // Refresh the category list after deletion.
+                    this.Listar();
+                }
+            }
+            catch (Exception ex)
+            {
+                // Show a message box with the error message and stack trace if an exception occurs.
+                MessageBox.Show(ex.Message + ex.StackTrace);
+            }
+        }
     }
 }
