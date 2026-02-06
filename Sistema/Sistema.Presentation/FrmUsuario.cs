@@ -76,8 +76,15 @@ namespace Sistema.Presentation
         {
             TxtBuscar.Clear(); // Clears the search textbox.
             TxtNombre.Clear(); // Clears the name textbox.
-            TxtDescripcion.Clear(); // Clears the description textbox.
             TxtId.Clear(); // Clears the ID textbox.
+            TxtNumeroDocumento.Clear(); // Clears the document number textbox.
+            TxtDireccion.Clear(); // Clears the address textbox.
+            TxtTelefono.Clear(); // Clears the phone textbox.
+            TxtEmail.Clear(); // Clears the email textbox.
+            TxtClave.Clear(); // Clears the password textbox.
+
+
+
             BtnInsertar.Visible = true; // Shows the Insert button.
             BtnActualizar.Visible = false; // Hides the Update button.
             ErrorIcono.Clear(); // Clears any error icons.
@@ -101,15 +108,82 @@ namespace Sistema.Presentation
             MessageBox.Show(mensaje, "Sistema de Ventas", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
+        private void LoadRole()
+        {
+            try
+            {
+                // Sets the DataSource of CboRol to the result of NRole.Listar(), which returns all roles.
+                CboRoles.DataSource = NRole.Listar(); //Call to the business layer to get the list of roles
+                CboRoles.ValueMember = "idRol"; // Sets the value member of the combo box to "IdRol".
+                CboRoles.DisplayMember = "nombre"; // Sets the display member of the combo box to "Nombre".
+            }
+            catch (Exception ex)
+            {
+                // Shows a message box with the error message and stack trace if an exception occurs.
+                MessageBox.Show(ex.Message + ex.StackTrace); //Show error message if exception occurs
+
+            }
+        }
+
         private void FrmUsuario_Load(object sender, EventArgs e)
         {
             this.Listar(); // When the form loads, call the Listar method to populate the DataGridView with users.
+            this.LoadRole(); // Also call the LoadRole method to populate the roles combo box with available roles.
         }
+
+
 
         private void BtnBuscar_Click(object sender, EventArgs e)
         {
             this.Buscar(); // When the search button is clicked, call the Buscar method to search for users based on the text in TxtBuscar.
 
         }
+
+        private void BtnInsertar_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                // Example validation (add more as needed)
+                if (CboRoles.SelectedValue == null || string.IsNullOrWhiteSpace(TxtNombre.Text) ||
+                    string.IsNullOrWhiteSpace(CboTipoDocumento.Text) || string.IsNullOrWhiteSpace(CboTipoDocumento.Text) ||
+                    string.IsNullOrWhiteSpace(TxtDireccion.Text) || string.IsNullOrWhiteSpace(TxtTelefono.Text) ||
+                    string.IsNullOrWhiteSpace(TxtEmail.Text) || string.IsNullOrWhiteSpace(TxtClave.Text))
+                {
+                    this.MensajeError("Faltan ingresar algunos datos, serán remarcados."); // Show error if any required field is missing
+                    ErrorIcono.SetError(CboRoles, "Seleccione un rol.");
+                    ErrorIcono.SetError(TxtNombre, "Ingrese un nombre.");
+                    ErrorIcono.SetError(TxtEmail, "Ingrese un email.");
+                    ErrorIcono.SetError(TxtClave, "Ingrese una clave.");
+                }
+
+                // Call the business layer to insert the user
+                string rpta = NUsuario.Insertar(
+                    Convert.ToInt32(CboRoles.SelectedValue),
+                    TxtNombre.Text.Trim(),
+                   Convert.ToString(CboTipoDocumento.SelectedValue),
+                    TxtNumeroDocumento.Text.Trim(),
+                    TxtDireccion.Text.Trim(),
+                    TxtTelefono.Text.Trim(),
+                    TxtEmail.Text.Trim(),
+                    TxtClave.Text.Trim()
+                );
+
+                if (rpta.Equals("OK"))
+                {
+                    MensajeOk("Usuario insertado correctamente.");
+                    
+                    Listar();
+                }
+                else
+                {
+                    MensajeError(rpta);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message + ex.StackTrace);
+            }
+        }
+             
     }
 }

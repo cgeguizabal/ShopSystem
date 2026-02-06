@@ -80,7 +80,7 @@
             this.tabPage1.Controls.Add(this.DgvListado);
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
+            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
             this.tabPage1.Size = new System.Drawing.Size(981, 425);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Listado";
@@ -89,7 +89,7 @@
             // BtnEliminar
             // 
             this.BtnEliminar.Location = new System.Drawing.Point(309, 376);
-            this.BtnEliminar.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.BtnEliminar.Margin = new System.Windows.Forms.Padding(2);
             this.BtnEliminar.Name = "BtnEliminar";
             this.BtnEliminar.Size = new System.Drawing.Size(103, 31);
             this.BtnEliminar.TabIndex = 7;
@@ -100,7 +100,7 @@
             // BtnDesactivar
             // 
             this.BtnDesactivar.Location = new System.Drawing.Point(207, 376);
-            this.BtnDesactivar.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.BtnDesactivar.Margin = new System.Windows.Forms.Padding(2);
             this.BtnDesactivar.Name = "BtnDesactivar";
             this.BtnDesactivar.Size = new System.Drawing.Size(98, 31);
             this.BtnDesactivar.TabIndex = 6;
@@ -111,7 +111,7 @@
             // BtnActivar
             // 
             this.BtnActivar.Location = new System.Drawing.Point(104, 375);
-            this.BtnActivar.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.BtnActivar.Margin = new System.Windows.Forms.Padding(2);
             this.BtnActivar.Name = "BtnActivar";
             this.BtnActivar.Size = new System.Drawing.Size(99, 31);
             this.BtnActivar.TabIndex = 5;
@@ -123,7 +123,7 @@
             // 
             this.ChkSeleccion.AutoSize = true;
             this.ChkSeleccion.Location = new System.Drawing.Point(18, 384);
-            this.ChkSeleccion.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.ChkSeleccion.Margin = new System.Windows.Forms.Padding(2);
             this.ChkSeleccion.Name = "ChkSeleccion";
             this.ChkSeleccion.Size = new System.Drawing.Size(82, 17);
             this.ChkSeleccion.TabIndex = 4;
@@ -196,7 +196,7 @@
             this.tabPage2.Controls.Add(this.label1);
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
+            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
             this.tabPage2.Size = new System.Drawing.Size(981, 425);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Mantenimiento";
@@ -205,7 +205,7 @@
             // BtnActualizar
             // 
             this.BtnActualizar.Location = new System.Drawing.Point(104, 271);
-            this.BtnActualizar.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.BtnActualizar.Margin = new System.Windows.Forms.Padding(2);
             this.BtnActualizar.Name = "BtnActualizar";
             this.BtnActualizar.Size = new System.Drawing.Size(210, 46);
             this.BtnActualizar.TabIndex = 8;
@@ -216,7 +216,7 @@
             // BtnCancelar
             // 
             this.BtnCancelar.Location = new System.Drawing.Point(338, 271);
-            this.BtnCancelar.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.BtnCancelar.Margin = new System.Windows.Forms.Padding(2);
             this.BtnCancelar.Name = "BtnCancelar";
             this.BtnCancelar.Size = new System.Drawing.Size(215, 46);
             this.BtnCancelar.TabIndex = 7;
@@ -227,7 +227,7 @@
             // BtnInsertar
             // 
             this.BtnInsertar.Location = new System.Drawing.Point(104, 271);
-            this.BtnInsertar.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.BtnInsertar.Margin = new System.Windows.Forms.Padding(2);
             this.BtnInsertar.Name = "BtnInsertar";
             this.BtnInsertar.Size = new System.Drawing.Size(210, 46);
             this.BtnInsertar.TabIndex = 6;
@@ -248,7 +248,7 @@
             // TxtId
             // 
             this.TxtId.Location = new System.Drawing.Point(453, 38);
-            this.TxtId.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.TxtId.Margin = new System.Windows.Forms.Padding(2);
             this.TxtId.Name = "TxtId";
             this.TxtId.Size = new System.Drawing.Size(101, 20);
             this.TxtId.TabIndex = 4;
@@ -257,7 +257,7 @@
             // TxtDescripcion
             // 
             this.TxtDescripcion.Location = new System.Drawing.Point(104, 120);
-            this.TxtDescripcion.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.TxtDescripcion.Margin = new System.Windows.Forms.Padding(2);
             this.TxtDescripcion.Multiline = true;
             this.TxtDescripcion.Name = "TxtDescripcion";
             this.TxtDescripcion.Size = new System.Drawing.Size(450, 69);
@@ -266,7 +266,7 @@
             // TxtNombre
             // 
             this.TxtNombre.Location = new System.Drawing.Point(104, 69);
-            this.TxtNombre.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.TxtNombre.Margin = new System.Windows.Forms.Padding(2);
             this.TxtNombre.Name = "TxtNombre";
             this.TxtNombre.Size = new System.Drawing.Size(450, 20);
             this.TxtNombre.TabIndex = 2;
