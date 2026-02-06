@@ -160,7 +160,7 @@ namespace Sistema.Presentation
                 string rpta = NUsuario.Insertar(
                     Convert.ToInt32(CboRoles.SelectedValue),
                     TxtNombre.Text.Trim(),
-                   Convert.ToString(CboTipoDocumento.SelectedValue),
+                    CboTipoDocumento.Text.Trim(),
                     TxtNumeroDocumento.Text.Trim(),
                     TxtDireccion.Text.Trim(),
                     TxtTelefono.Text.Trim(),
