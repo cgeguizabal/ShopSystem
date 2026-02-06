@@ -118,5 +118,12 @@ namespace Sistema.Presentation
             frm.MdiParent = this;
             frm.Show();
         }
+
+        private void rolesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            FrmRole frm = new FrmRole();
+            frm.MdiParent = this;
+            frm.Show();
+        }
     }
 }
