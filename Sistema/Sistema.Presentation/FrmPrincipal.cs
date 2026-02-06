@@ -13,6 +13,11 @@ namespace Sistema.Presentation
     public partial class FrmPrincipal : Form
     {
         private int childFormNumber = 0;
+        public int Idusuario;
+        public int IdRol;
+        public string Nombre;
+        public string Rol;
+        public bool Estado;
 
         public FrmPrincipal()
         {
@@ -131,6 +136,62 @@ namespace Sistema.Presentation
             FrmUsuario frm = new FrmUsuario();
             frm.MdiParent = this;
             frm.Show();
+        }
+
+        private void FrmPrincipal_Load(object sender, EventArgs e)
+        {
+            StBarraInferior.Text = "Usuario: " + this.Nombre + " - Rol: " + this.Rol; // Displays the user's name and role in the status bar when the main form loads
+            MessageBox.Show("Bienvenido al Sistema, " + this.Nombre + "!", "Sistema de Ventas", MessageBoxButtons.OK, MessageBoxIcon.Information); // Displays a welcome message to the user when the main form loads
+
+            if (this.Rol.Equals("Administrador"))
+            {
+                // If the user is an administrator, show all menu items.
+                MnuAlmacen.Enabled = true; // Show the "Almacen" menu item for administrators
+                MnuIngresos.Enabled = true; // Show the "Ingresos" menu item for administrators
+                MnuVentas.Enabled = true; // Show the "Ventas" menu item for administrators
+                MnuAccesos.Enabled = true; // Show the "Accesos" menu item for administrators
+                MnuConsultas.Enabled = true; // Show the "Consultas" menu item for administrators
+                TsCompras.Enabled = true; // Show the "Compras" toolbar button for administrators
+                TsVentas.Enabled = true; // Show the "Ventas" toolbar button for administrators
+            }
+            else if (this.Rol.Equals("Vendedor"))
+            {
+                // If the user is a seller, show only the categories and articles menu items.
+                MnuAlmacen.Enabled = true; // Show the "Almacen" menu item for administrators
+                MnuIngresos.Enabled = true; // Show the "Ingresos" menu item for administrators
+                MnuVentas.Enabled = true; // Show the "Ventas" menu item for administrators
+                MnuAccesos.Enabled = false; // Show the "Accesos" menu item for administrators
+                MnuConsultas.Enabled = true; // Show the "Consultas" menu item for administrators
+                TsCompras.Enabled = true; // Show the "Compras" toolbar button for administrators
+                TsVentas.Enabled = true;
+
+            } else if (this.Rol.Equals("Almacenero"))
+            {
+                // If the user is a warehouse manager, show only the categories and articles menu items.
+                MnuAlmacen.Enabled = false; // Show the "Almacen" menu item for administrators
+                MnuIngresos.Enabled = false; // Show the "Ingresos" menu item for administrators
+                MnuVentas.Enabled = false; // Show the "Ventas" menu item for administrators
+                MnuAccesos.Enabled = false; // Show the "Accesos" menu item for administrators
+                MnuConsultas.Enabled = false; // Show the "Consultas" menu item for administrators
+                TsCompras.Enabled = false; // Show the "Compras" toolbar button for administrators
+                TsVentas.Enabled = false;
+            }
+
+            }
+
+        private void FrmPrincipal_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            Application.Exit(); // Ensures the entire application exits when the main form is closed
+        }
+
+        private void salirToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            DialogResult opcion;
+            opcion = MessageBox.Show("¿Desea salir del sistema?", "Sistema de Ventas", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
+            if (opcion == DialogResult.OK)
+            {
+                Application.Exit();
+            }
         }
     }
 }

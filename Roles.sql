@@ -5,8 +5,9 @@ INSERT INTO rol (nombre) values('Almacenero');
 go
 
 --Procedimiento listar rol
-CREATE PROC rol_listar
+CREATE PROC role_listar
 as
 SELECT idrol,nombre FROM rol
 WHERE estado=1
 go
+

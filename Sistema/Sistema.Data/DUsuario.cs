@@ -3,6 +3,7 @@ using System;
 
 using System.Data.SqlClient;
 using System.Data;
+using System.Security.Claims;
 
 
 namespace Sistema.Data
@@ -71,7 +72,38 @@ namespace Sistema.Data
                 if (SqlCon.State == ConnectionState.Open) SqlCon.Close(); // Close the connection if it is open
             }
         }
-    
+
+        public DataTable Login(string Email, string Clave)
+        {
+            SqlDataReader Resultado; // To read the results from the database
+            DataTable Tabla = new DataTable(); // To store the results in a table
+            SqlConnection SqlCon = new SqlConnection(); // To create the connection to the database
+
+            try
+            {
+                SqlCon = Connection.GetInstance().CreateConnection(); // Get the connection to the database from the Connection class
+                SqlCommand Comando = new SqlCommand("usuario_login", SqlCon); // Create the SqlCommand object to execute the stored procedure
+                Comando.CommandType = CommandType.StoredProcedure; // Indicate that it is a stored procedure on the SQL Server
+
+                Comando.Parameters.Add("@email", SqlDbType.VarChar).Value = Email;
+                Comando.Parameters.Add("@clave", SqlDbType.VarChar).Value = Clave;
+
+                SqlCon.Open(); // Open the connection
+                Resultado = Comando.ExecuteReader(); // Execute the command and store the result in Resultado
+                Tabla.Load(Resultado); // Load the result into the DataTable
+                return Tabla; // Return the DataTable with the results
+            }
+            catch (Exception ex)
+            {
+                return null;
+                throw ex; // Throw the exception to be handled by the calling code
+            }
+            finally
+            {
+                if (SqlCon.State == ConnectionState.Open) SqlCon.Close(); // Close the connection if it is open
+            }
+        }
+
         public string Existe(string Valor)
         {
             // Variable to store the response (will contain the output value or an error message)

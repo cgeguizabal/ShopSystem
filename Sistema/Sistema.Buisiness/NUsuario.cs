@@ -24,7 +24,13 @@ namespace Sistema.Buisiness
             DUsuario Datos = new DUsuario();
             return Datos.Buscar(Valor); //This line calls the Buscar method from DUsuario class
         }
-   
+
+        public static DataTable Login(string Email, string Clave)
+        {
+            DUsuario Datos = new DUsuario();
+            return Datos.Login(Email, Clave); //This line calls the Buscar method from DUsuario class
+        }
+
         // Inserts a new user.
         // First checks if a user with the same name already exists using the Existe method.
         // If it exists, returns a message indicating duplication.
