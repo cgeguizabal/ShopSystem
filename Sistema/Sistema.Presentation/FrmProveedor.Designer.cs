@@ -101,6 +101,7 @@
             this.BtnEliminar.TabIndex = 7;
             this.BtnEliminar.Text = "Eleminar";
             this.BtnEliminar.UseVisualStyleBackColor = true;
+            this.BtnEliminar.Click += new System.EventHandler(this.BtnEliminar_Click);
             // 
             // ChkSeleccion
             // 
@@ -112,6 +113,7 @@
             this.ChkSeleccion.TabIndex = 4;
             this.ChkSeleccion.Text = "Seleccionar";
             this.ChkSeleccion.UseVisualStyleBackColor = true;
+            this.ChkSeleccion.CheckedChanged += new System.EventHandler(this.ChkSeleccion_CheckedChanged);
             // 
             // BtnBuscar
             // 
@@ -158,6 +160,7 @@
             this.DgvListado.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.DgvListado.Size = new System.Drawing.Size(1303, 367);
             this.DgvListado.TabIndex = 0;
+            this.DgvListado.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DgvListado_CellContentClick);
             this.DgvListado.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DgvListado_CellDoubleClick);
             // 
             // Seleccionar

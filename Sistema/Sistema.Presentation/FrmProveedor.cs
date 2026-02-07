@@ -1,8 +1,8 @@
 ﻿
-using System;
-
-using System.Windows.Forms;
+using Sistema.Buisiness;
 using Sistema.Business;
+using System;
+using System.Windows.Forms;
 
 namespace Sistema.Presentation
 {
@@ -225,6 +225,87 @@ namespace Sistema.Presentation
         {
             this.Limpiar();
             TabGeneral.SelectedIndex = 0;
+        }
+
+        private void ChkSeleccion_CheckedChanged(object sender, EventArgs e)
+        {
+            if (ChkSeleccion.Checked)
+            {
+                DgvListado.Columns[0].Visible = true; // Shows the selection column.
+                
+                BtnEliminar.Visible = true; // Shows the Delete button.
+            }
+            else
+            {
+                DgvListado.Columns[0].Visible = false; // Hides the selection column.
+                
+                BtnEliminar.Visible = false; // Hides the Delete button.
+            }
+        }
+
+        private void DgvListado_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.ColumnIndex == DgvListado.Columns["Seleccionar"].Index)
+            {
+                // Toggles the checkbox value for the clicked row.
+                DataGridViewCheckBoxCell ChkEliminar = (DataGridViewCheckBoxCell)DgvListado.Rows[e.RowIndex].Cells["Seleccionar"];
+                ChkEliminar.Value = !Convert.ToBoolean(ChkEliminar.Value);
+            }
+        }
+
+        private void BtnEliminar_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                DialogResult Opcion;
+                // Show a confirmation dialog to the user before deleting categories.
+                // The dialog displays a question icon and OK/Cancel buttons.
+                Opcion = MessageBox.Show(
+                    "Realmente deseas eliminar este Usuario?", // Message to display
+                    "Sistema de Ventas",                        // Title of the dialog window
+                    MessageBoxButtons.OKCancel,                 // Show OK and Cancel buttons
+                    MessageBoxIcon.Question                     // Show a question icon
+                );
+
+                // If the user clicks OK, proceed with deletion.
+                if (Opcion == DialogResult.OK)
+                {
+                    int Codigo; // Variable to store the category ID to delete
+                    string Rpta = ""; // Variable to store the response from the business layer
+
+                    // Iterate through all rows in the DataGridView.
+                    foreach (DataGridViewRow row in DgvListado.Rows)
+                    {
+                        // Check if the selection checkbox is checked for this row.
+                        if (Convert.ToBoolean(row.Cells[0].Value))
+                        {
+                            // Get the category ID from the second column (index 1).
+                            Codigo = Convert.ToInt32(row.Cells[1].Value);
+                            // Call the business layer to delete the category by ID.
+                            Rpta = NPersona.Eliminar(Codigo);
+
+                            // If the deletion was successful, show a success message with the category name.
+                            if (Rpta.Equals("OK"))
+                            {
+                                this.MensajeOk("Se eliminó correctamente el registro " + Convert.ToString(row.Cells[3].Value));
+                            }
+                            else
+                            {
+                                // If there was an error, show the error message.
+                                this.MensajeError(Rpta);
+                            }
+                        }
+                    }
+
+                    // Refresh the category list after deletion.
+                    this.Listar();
+                }
+            }
+            catch (Exception ex)
+            {
+                // Show a message box with the error message and stack trace if an exception occurs.
+                MessageBox.Show(ex.Message + ex.StackTrace);
+            }
         }
     }
 }
