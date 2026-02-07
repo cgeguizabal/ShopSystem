@@ -79,7 +79,6 @@ namespace Sistema.Presentation
             TxtDireccion.Clear(); // Clears the address textbox.
             TxtTelefono.Clear(); // Clears the phone textbox.
             TxtEmail.Clear(); // Clears the email textbox.
-            TxtClave.Clear(); // Clears the password textbox.
 
 
 
@@ -107,6 +106,51 @@ namespace Sistema.Presentation
         private void FrmProvedor_Load(object sender, EventArgs e)
         {
             this.Listar(); // Calls the Listar method to populate the DataGridView when the form loads.
+        }
+
+        private void BtnBuscar_Click(object sender, EventArgs e)
+        {
+            this.Buscar();
+        }
+
+        private void BtnInsertar_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                // Example validation (add more as needed)
+                if (string.IsNullOrWhiteSpace(TxtNombre.Text))
+                {
+                    this.MensajeError("Faltan ingresar algunos datos, serán remarcados."); // Show error if any required field is missing                  
+                    ErrorIcono.SetError(TxtNombre, "Ingrese un nombre.");
+
+
+
+                    // Call the business layer to insert the user
+                    string rpta = NPersona.Insertar(
+                        "Proveedor",
+                        TxtNombre.Text.Trim(),
+                        CboTipoDocumento.Text.Trim(),
+                        TxtNumeroDocumento.Text.Trim(),
+                        TxtDireccion.Text.Trim(),
+                        TxtTelefono.Text.Trim(),
+                        TxtEmail.Text.Trim()
+                    );
+
+                    if (rpta.Equals("OK"))
+                    {
+                        this.MensajeOk("Usuario insertado correctamente.");
+                        this.Listar();
+                    }
+                    else
+                    {
+                        MensajeError(rpta);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message + ex.StackTrace);
+            }
         }
     }
 }
