@@ -174,7 +174,7 @@ namespace Sistema.Presentation
                 {
                     MensajeOk("Usuario insertado correctamente.");
                     
-                    Listar();
+                    this.Listar();
                 }
                 else
                 {

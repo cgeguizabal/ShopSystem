@@ -8,6 +8,8 @@ namespace Sistema.Presentation
 {
     public partial class FrmProveedor : Form
     {
+
+        private string NombreAnt; // Variable to store the previous name of the user for update operations.
         public FrmProveedor()
         {
             InitializeComponent();
@@ -151,6 +153,78 @@ namespace Sistema.Presentation
             {
                 MessageBox.Show(ex.Message + ex.StackTrace);
             }
+        }
+
+        private void DgvListado_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            try {
+                this.Limpiar();
+                BtnActualizar.Visible = true;
+                BtnInsertar.Visible = false;
+                TxtId.Text = Convert.ToString(DgvListado.CurrentRow.Cells["ID"].Value);
+                this.NombreAnt = Convert.ToString(DgvListado.CurrentRow.Cells["Nombre"].Value);
+                TxtNombre.Text = Convert.ToString(DgvListado.CurrentRow.Cells["Nombre"].Value);
+                CboTipoDocumento.Text = Convert.ToString(DgvListado.CurrentRow.Cells["Tipo_Documento"].Value);
+                TxtNumeroDocumento.Text = Convert.ToString(DgvListado.CurrentRow.Cells["Num_Documento"].Value);
+                TxtDireccion.Text = Convert.ToString(DgvListado.CurrentRow.Cells["Direccion"].Value);
+                TxtTelefono.Text = Convert.ToString(DgvListado.CurrentRow.Cells["Telefono"].Value);
+                TxtEmail.Text = Convert.ToString(DgvListado.CurrentRow.Cells["Email"].Value);
+                TabGeneral.SelectedIndex = 1;
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message + ex.StackTrace);
+
+            }
+        }
+
+        private void BtnActualizar_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                // Example validation (add more as needed)
+                if (TxtId.Text == string.Empty || string.IsNullOrWhiteSpace(TxtNombre.Text))
+                {
+                    this.MensajeError("Faltan ingresar algunos datos, serán remarcados."); // Show error if any required field is missing                  
+                    ErrorIcono.SetError(TxtNombre, "Ingrese un nombre.");
+
+
+
+                    // Call the business layer to insert the user
+                    string rpta = NPersona.Actualizar(
+                        Convert.ToInt32(TxtId.Text),
+                        "Proveedor",
+                        this.NombreAnt,
+                        TxtNombre.Text.Trim(),
+                        CboTipoDocumento.Text.Trim(),
+                        TxtNumeroDocumento.Text.Trim(),
+                        TxtDireccion.Text.Trim(),
+                        TxtTelefono.Text.Trim(),
+                        TxtEmail.Text.Trim()
+                    );
+
+                    if (rpta.Equals("OK"))
+                    {
+                        this.MensajeOk("El provedor ha sido actualizado correctamente.");
+                        this.Listar();
+                    }
+                    else
+                    {
+                        MensajeError(rpta);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message + ex.StackTrace);
+            }
+        }
+
+        private void BtnCancelar_Click(object sender, EventArgs e)
+        {
+            this.Limpiar();
+            TabGeneral.SelectedIndex = 0;
         }
     }
 }

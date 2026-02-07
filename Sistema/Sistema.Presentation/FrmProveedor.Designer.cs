@@ -40,9 +40,9 @@
             this.Seleccionar = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.TxtEmail = new System.Windows.Forms.TextBox();
-            this.label8 = new System.Windows.Forms.Label();
             this.TxtTelefono = new System.Windows.Forms.TextBox();
             this.TxtDireccion = new System.Windows.Forms.TextBox();
+            this.label8 = new System.Windows.Forms.Label();
             this.TxtNumeroDocumento = new System.Windows.Forms.TextBox();
             this.CboTipoDocumento = new System.Windows.Forms.ComboBox();
             this.label7 = new System.Windows.Forms.Label();
@@ -69,7 +69,7 @@
             this.TabGeneral.Controls.Add(this.tabPage1);
             this.TabGeneral.Controls.Add(this.tabPage2);
             this.TabGeneral.Location = new System.Drawing.Point(16, 15);
-            this.TabGeneral.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.TabGeneral.Margin = new System.Windows.Forms.Padding(4);
             this.TabGeneral.Name = "TabGeneral";
             this.TabGeneral.SelectedIndex = 0;
             this.TabGeneral.Size = new System.Drawing.Size(1358, 555);
@@ -84,9 +84,9 @@
             this.tabPage1.Controls.Add(this.LblTotal);
             this.tabPage1.Controls.Add(this.DgvListado);
             this.tabPage1.Location = new System.Drawing.Point(4, 25);
-            this.tabPage1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tabPage1.Margin = new System.Windows.Forms.Padding(4);
             this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tabPage1.Padding = new System.Windows.Forms.Padding(4);
             this.tabPage1.Size = new System.Drawing.Size(1350, 526);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Listado";
@@ -116,7 +116,7 @@
             // BtnBuscar
             // 
             this.BtnBuscar.Location = new System.Drawing.Point(648, 20);
-            this.BtnBuscar.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.BtnBuscar.Margin = new System.Windows.Forms.Padding(4);
             this.BtnBuscar.Name = "BtnBuscar";
             this.BtnBuscar.Size = new System.Drawing.Size(267, 28);
             this.BtnBuscar.TabIndex = 3;
@@ -127,7 +127,7 @@
             // TxtBuscar
             // 
             this.TxtBuscar.Location = new System.Drawing.Point(11, 20);
-            this.TxtBuscar.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.TxtBuscar.Margin = new System.Windows.Forms.Padding(4);
             this.TxtBuscar.Name = "TxtBuscar";
             this.TxtBuscar.Size = new System.Drawing.Size(628, 22);
             this.TxtBuscar.TabIndex = 2;
@@ -151,13 +151,14 @@
             this.DgvListado.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Seleccionar});
             this.DgvListado.Location = new System.Drawing.Point(8, 70);
-            this.DgvListado.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.DgvListado.Margin = new System.Windows.Forms.Padding(4);
             this.DgvListado.Name = "DgvListado";
             this.DgvListado.ReadOnly = true;
             this.DgvListado.RowHeadersWidth = 51;
             this.DgvListado.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.DgvListado.Size = new System.Drawing.Size(1303, 367);
             this.DgvListado.TabIndex = 0;
+            this.DgvListado.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DgvListado_CellDoubleClick);
             // 
             // Seleccionar
             // 
@@ -187,9 +188,9 @@
             this.tabPage2.Controls.Add(this.TxtNombre);
             this.tabPage2.Controls.Add(this.label1);
             this.tabPage2.Location = new System.Drawing.Point(4, 25);
-            this.tabPage2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tabPage2.Margin = new System.Windows.Forms.Padding(4);
             this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tabPage2.Padding = new System.Windows.Forms.Padding(4);
             this.tabPage2.Size = new System.Drawing.Size(1350, 526);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Mantenimiento";
@@ -198,10 +199,26 @@
             // TxtEmail
             // 
             this.TxtEmail.Location = new System.Drawing.Point(219, 320);
-            this.TxtEmail.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.TxtEmail.Margin = new System.Windows.Forms.Padding(4);
             this.TxtEmail.Name = "TxtEmail";
             this.TxtEmail.Size = new System.Drawing.Size(324, 22);
             this.TxtEmail.TabIndex = 3;
+            // 
+            // TxtTelefono
+            // 
+            this.TxtTelefono.Location = new System.Drawing.Point(219, 269);
+            this.TxtTelefono.Margin = new System.Windows.Forms.Padding(4);
+            this.TxtTelefono.Name = "TxtTelefono";
+            this.TxtTelefono.Size = new System.Drawing.Size(324, 22);
+            this.TxtTelefono.TabIndex = 18;
+            // 
+            // TxtDireccion
+            // 
+            this.TxtDireccion.Location = new System.Drawing.Point(219, 225);
+            this.TxtDireccion.Margin = new System.Windows.Forms.Padding(4);
+            this.TxtDireccion.Name = "TxtDireccion";
+            this.TxtDireccion.Size = new System.Drawing.Size(324, 22);
+            this.TxtDireccion.TabIndex = 17;
             // 
             // label8
             // 
@@ -213,26 +230,10 @@
             this.label8.TabIndex = 0;
             this.label8.Text = "Email";
             // 
-            // TxtTelefono
-            // 
-            this.TxtTelefono.Location = new System.Drawing.Point(219, 269);
-            this.TxtTelefono.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.TxtTelefono.Name = "TxtTelefono";
-            this.TxtTelefono.Size = new System.Drawing.Size(324, 22);
-            this.TxtTelefono.TabIndex = 18;
-            // 
-            // TxtDireccion
-            // 
-            this.TxtDireccion.Location = new System.Drawing.Point(219, 225);
-            this.TxtDireccion.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.TxtDireccion.Name = "TxtDireccion";
-            this.TxtDireccion.Size = new System.Drawing.Size(324, 22);
-            this.TxtDireccion.TabIndex = 17;
-            // 
             // TxtNumeroDocumento
             // 
             this.TxtNumeroDocumento.Location = new System.Drawing.Point(219, 194);
-            this.TxtNumeroDocumento.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.TxtNumeroDocumento.Margin = new System.Windows.Forms.Padding(4);
             this.TxtNumeroDocumento.Name = "TxtNumeroDocumento";
             this.TxtNumeroDocumento.Size = new System.Drawing.Size(324, 22);
             this.TxtNumeroDocumento.TabIndex = 16;
@@ -246,7 +247,7 @@
             "LICENCIA",
             "NIT"});
             this.CboTipoDocumento.Location = new System.Drawing.Point(199, 158);
-            this.CboTipoDocumento.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.CboTipoDocumento.Margin = new System.Windows.Forms.Padding(4);
             this.CboTipoDocumento.Name = "CboTipoDocumento";
             this.CboTipoDocumento.Size = new System.Drawing.Size(160, 24);
             this.CboTipoDocumento.TabIndex = 15;
@@ -293,13 +294,14 @@
             // 
             // BtnActualizar
             // 
-            this.BtnActualizar.Location = new System.Drawing.Point(165, 431);
+            this.BtnActualizar.Location = new System.Drawing.Point(66, 386);
             this.BtnActualizar.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.BtnActualizar.Name = "BtnActualizar";
             this.BtnActualizar.Size = new System.Drawing.Size(280, 57);
             this.BtnActualizar.TabIndex = 8;
             this.BtnActualizar.Text = "Actualizar";
             this.BtnActualizar.UseVisualStyleBackColor = true;
+            this.BtnActualizar.Click += new System.EventHandler(this.BtnActualizar_Click);
             // 
             // BtnCancelar
             // 
@@ -310,6 +312,7 @@
             this.BtnCancelar.TabIndex = 7;
             this.BtnCancelar.Text = "Cancelar";
             this.BtnCancelar.UseVisualStyleBackColor = true;
+            this.BtnCancelar.Click += new System.EventHandler(this.BtnCancelar_Click);
             // 
             // BtnInsertar
             // 
@@ -368,7 +371,7 @@
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(1409, 608);
             this.Controls.Add(this.TabGeneral);
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "FrmProveedor";
             this.Text = "Proveedores";
             this.Load += new System.EventHandler(this.FrmProvedor_Load);
