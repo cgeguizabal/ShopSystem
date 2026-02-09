@@ -153,7 +153,7 @@ namespace Sistema.Data
             try
             {
                 SqlCon = Connection.GetInstance().CreateConnection(); // Get the connection to the database from the Connection class
-                SqlCommand Comando = new SqlCommand("persona_buscar_Provedores", SqlCon); // Create the SqlCommand object to execute the stored procedure
+                SqlCommand Comando = new SqlCommand("persona_buscar_Proveedores", SqlCon); // Create the SqlCommand object to execute the stored procedure
                 Comando.CommandType = CommandType.StoredProcedure; // Indicate that it is a stored procedure on the SQL Server
                 Comando.Parameters.Add("@valor", SqlDbType.VarChar).Value = valor; // Add the parameter to the command
                 SqlCon.Open(); // Open the connection

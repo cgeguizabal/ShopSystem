@@ -35,7 +35,7 @@ namespace Sistema.Presentation
             try
             {
                 // Sets the DataSource of DgvListado to the result of NCategoria.Buscar(), which returns matching categories.
-                DgvListado.DataSource = NPersona.Buscar(TxtBuscar.Text); //Call to the business layer to search categories based on the text in TxtBuscar
+                DgvListado.DataSource = NPersona.BuscarProveedores(TxtBuscar.Text); //Call to the business layer to search categories based on the text in TxtBuscar
                 this.Formato(); // Formats the DataGridView columns.
                                 // Updates the label to show the total number of records found.
                 LblTotal.Text = "Total registro: " + Convert.ToString(DgvListado.Rows.Count); //Display total number of records found
