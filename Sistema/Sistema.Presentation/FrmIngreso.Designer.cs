@@ -68,6 +68,7 @@
             this.DgvListado = new System.Windows.Forms.DataGridView();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.TabGeneral = new System.Windows.Forms.TabControl();
+            this.panel1 = new System.Windows.Forms.Panel();
             ((System.ComponentModel.ISupportInitialize)(this.ErrorIcono)).BeginInit();
             this.tabPage2.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -123,6 +124,7 @@
             // 
             // tabPage2
             // 
+            this.tabPage2.Controls.Add(this.panel1);
             this.tabPage2.Controls.Add(this.groupBox2);
             this.tabPage2.Controls.Add(this.groupBox1);
             this.tabPage2.Controls.Add(this.BtnCancelar);
@@ -230,6 +232,7 @@
             this.TxtCodigo.Name = "TxtCodigo";
             this.TxtCodigo.Size = new System.Drawing.Size(273, 20);
             this.TxtCodigo.TabIndex = 17;
+            this.TxtCodigo.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TxtCodigo_KeyDown);
             // 
             // label7
             // 
@@ -467,6 +470,13 @@
             this.TabGeneral.Size = new System.Drawing.Size(989, 703);
             this.TabGeneral.TabIndex = 1;
             // 
+            // panel1
+            // 
+            this.panel1.Location = new System.Drawing.Point(739, 182);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(226, 221);
+            this.panel1.TabIndex = 10;
+            // 
             // FrmIngreso
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -534,5 +544,6 @@
         private System.Windows.Forms.TextBox TxtCodigo;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.TextBox TxtImpuestos;
+        private System.Windows.Forms.Panel panel1;
     }
 }

@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Sistema.Buisiness;
+using System.Linq.Expressions;
 
 namespace Sistema.Presentation
 {
@@ -139,6 +140,9 @@ namespace Sistema.Presentation
             DgvDetalle.Columns[1].ReadOnly = true; // Sets the second column (Código) to read-only, preventing user edits.
             DgvDetalle.Columns[2].ReadOnly = true; // Sets the third column (Artículo) to read-only, preventing user edits.
             DgvDetalle.Columns[5].ReadOnly = true; // Sets the sixth column (Importe) to read-only, preventing user edits as it is typically calculated from quantity and price.
+
+
+            DgvDetalle.AllowUserToAddRows = false;
         }
 
 
@@ -160,6 +164,45 @@ namespace Sistema.Presentation
             vista.ShowDialog(); // Displays the FrmVista_ProveedorIngreso form as a modal dialog, allowing the user to interact with it and select a supplier before returning to the main form.
             TxtIdProveedor.Text = Convert.ToString(Variables.IdProveedor);
             TxtNombreProveedor.Text = Variables.NombreProveedor;
+        }
+
+        private void TxtCodigo_KeyDown(object sender, KeyEventArgs e)
+        {
+            try{
+
+                if (e.KeyCode == Keys.Enter) { 
+                DataTable Table = new DataTable();
+                    Table = NArticulo.BuscarCodigo(TxtCodigo.Text.Trim());
+                    if (Table.Rows.Count <= 0) {
+                        this.MensajeError("No existe articulo con ese codigo de Barra");
+
+                    }
+                    else
+                    {
+                        this.AgregarDetalle(Convert.ToInt32(Table.Rows[0][0]), Convert.ToString(Table.Rows[0][1]), Convert.ToString(Table.Rows[0][2]), Convert.ToDecimal(Table.Rows[0][3]));
+                    }
+                }
+
+
+            }catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message + ex.StackTrace);
+            }
+            
+            
+           
+        }
+
+        private void AgregarDetalle(int IdArticulo, string Codigo, string Nombre, decimal Precio)
+        {
+            DataRow Row = DtDetalle.NewRow(); // Creates a new DataRow object to represent a new row of data in the DtDetalle DataTable.
+            Row["idarticulo"] = IdArticulo; // Sets the value of the "idarticulo" column in the new row to the provided IdArticulo parameter.
+            Row["codigo"] = Codigo; // Sets the value of the "codigo" column in the new row to the provided Codigo parameter.
+            Row["articulo"] = Nombre;
+            Row["cantidad"] = 1; // Sets the value of the "cantidad" column in the new row to 1, indicating that one unit of the article is being added.
+            Row["precio"] = Precio; // Sets the value of the "precio" column in the new row to the provided Precio parameter.
+            Row["importe"] = Precio; // Sets the value of the "importe" column in the new row to the same value as Precio, as it is typically calculated as quantity multiplied by price.
+          this.DtDetalle.Rows.Add(Row); // Adds the newly created DataRow to the DtDetalle DataTable, which will then be reflected in the DgvDetalle DataGridView that is bound to this DataTable.
         }
     }
 }

@@ -74,6 +74,33 @@ namespace Sistema.Data
             }
         }
 
+        public DataTable BuscarCodigo(string valor)
+        {
+            SqlDataReader Resultado; // To read the results from the database
+            DataTable Tabla = new DataTable(); // To store the results in a table
+            SqlConnection SqlCon = new SqlConnection(); // To create the connection to the database
+
+            try
+            {
+                SqlCon = Connection.GetInstance().CreateConnection(); // Get the connection to the database from the Connection class
+                SqlCommand Comando = new SqlCommand("articulo_buscar_codigo", SqlCon); // Create the SqlCommand object to execute the stored procedure
+                Comando.CommandType = CommandType.StoredProcedure; // Indicate that it is a stored procedure on the SQL Server
+                Comando.Parameters.Add("@valor", SqlDbType.VarChar).Value = valor; // Add the parameter to the command
+                SqlCon.Open(); // Open the connection
+                Resultado = Comando.ExecuteReader(); // Execute the command and store the result in Resultado
+                Tabla.Load(Resultado); // Load the result into the DataTable
+                return Tabla; // Return the DataTable with the results
+            }
+            catch (Exception ex)
+            {
+                throw ex; // Throw the exception to be handled by the calling code
+            }
+            finally
+            {
+                if (SqlCon.State == ConnectionState.Open) SqlCon.Close(); // Close the connection if it is open
+            }
+        }
+
         public string Existe(string Valor)
         {
             // Variable to store the response (will contain the output value or an error message)

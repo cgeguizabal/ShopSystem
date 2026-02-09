@@ -27,6 +27,12 @@ namespace Sistema.Business
             return Datos.Buscar(Valor); //This line calls the Buscar method from DCategoria class
         }
 
+        public static DataTable BuscarCodigo(string Valor)
+        {
+            DArticulo Datos = new DArticulo();
+            return Datos.BuscarCodigo(Valor); //This line calls the Buscar method from DCategoria class
+        }
+
         // Inserts a new category.
         // First checks if a category with the same name already exists using the Existe method.
         // If it exists, returns a message indicating duplication.

@@ -90,6 +90,14 @@ else
 go
 
 
+--Buscar por codigo de barra
+CREATE PROC articulo_buscar_codigo
+@valor varchar(50)
+as
+select idarticulo,codigo,nombre,precio_venta,stock from articulo
+WHERE codigo=@valor
+go
+
 
 
 
