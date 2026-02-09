@@ -122,7 +122,7 @@ namespace Sistema.Presentation
                     this.MensajeError("Faltan ingresar algunos datos, serán remarcados."); // Show error if any required field is missing                  
                     ErrorIcono.SetError(TxtNombre, "Ingrese un nombre.");
 
-
+                }
 
                     // Call the business layer to insert the user
                     string rpta = NPersona.Insertar(
@@ -144,7 +144,7 @@ namespace Sistema.Presentation
                     {
                         MensajeError(rpta);
                     }
-                }
+                
             }
             catch (Exception ex)
             {
@@ -186,7 +186,7 @@ namespace Sistema.Presentation
                     this.MensajeError("Faltan ingresar algunos datos, serán remarcados."); // Show error if any required field is missing                  
                     ErrorIcono.SetError(TxtNombre, "Ingrese un nombre.");
 
-
+                }
 
                     // Call the business layer to insert the user
                     string rpta = NPersona.Actualizar(
@@ -210,7 +210,7 @@ namespace Sistema.Presentation
                     {
                         MensajeError(rpta);
                     }
-                }
+                
             }
             catch (Exception ex)
             {

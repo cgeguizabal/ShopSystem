@@ -276,7 +276,7 @@ namespace Sistema.Data
                 Comando.CommandType = CommandType.StoredProcedure;
 
                 // Add the input parameters '@nombre' and '@descripcion' to the command, using the values from the Categoria object.
-                Comando.Parameters.Add("@top_persona", SqlDbType.VarChar).Value = obj.TipoPersona;
+                Comando.Parameters.Add("@tipo_persona", SqlDbType.VarChar).Value = obj.TipoPersona;
                 Comando.Parameters.Add("@nombre", SqlDbType.VarChar).Value = obj.Nombre; // This is the obj coming from the argument received using the model
                 Comando.Parameters.Add("@tipo_documento", SqlDbType.VarChar).Value = obj.TipoDocumento;
                 Comando.Parameters.Add("@num_documento", SqlDbType.VarChar).Value = obj.NumDocumento;

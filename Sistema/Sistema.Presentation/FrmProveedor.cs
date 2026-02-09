@@ -119,34 +119,33 @@ namespace Sistema.Presentation
         {
             try
             {
-                // Example validation (add more as needed)
+                // Validation
                 if (string.IsNullOrWhiteSpace(TxtNombre.Text))
                 {
-                    this.MensajeError("Faltan ingresar algunos datos, serán remarcados."); // Show error if any required field is missing                  
+                    this.MensajeError("Faltan ingresar algunos datos, serán remarcados.");
                     ErrorIcono.SetError(TxtNombre, "Ingrese un nombre.");
+                    return; // ✅ Exit early if validation fails
+                }
 
+                // ✅ Now this code only runs if validation passes
+                string rpta = NPersona.Insertar(
+                    "Proveedor",
+                    TxtNombre.Text.Trim(),
+                    CboTipoDocumento.Text.Trim(),
+                    TxtNumeroDocumento.Text.Trim(),
+                    TxtDireccion.Text.Trim(),
+                    TxtTelefono.Text.Trim(),
+                    TxtEmail.Text.Trim()
+                );
 
-
-                    // Call the business layer to insert the user
-                    string rpta = NPersona.Insertar(
-                        "Proveedor",
-                        TxtNombre.Text.Trim(),
-                        CboTipoDocumento.Text.Trim(),
-                        TxtNumeroDocumento.Text.Trim(),
-                        TxtDireccion.Text.Trim(),
-                        TxtTelefono.Text.Trim(),
-                        TxtEmail.Text.Trim()
-                    );
-
-                    if (rpta.Equals("OK"))
-                    {
-                        this.MensajeOk("Usuario insertado correctamente.");
-                        this.Listar();
-                    }
-                    else
-                    {
-                        MensajeError(rpta);
-                    }
+                if (rpta.Equals("OK"))
+                {
+                    this.MensajeOk("Proveedor insertado correctamente.");
+                    this.Listar();
+                }
+                else
+                {
+                    MensajeError(rpta);
                 }
             }
             catch (Exception ex)
@@ -188,7 +187,7 @@ namespace Sistema.Presentation
                 {
                     this.MensajeError("Faltan ingresar algunos datos, serán remarcados."); // Show error if any required field is missing                  
                     ErrorIcono.SetError(TxtNombre, "Ingrese un nombre.");
-
+                }
 
 
                     // Call the business layer to insert the user
@@ -213,7 +212,7 @@ namespace Sistema.Presentation
                     {
                         MensajeError(rpta);
                     }
-                }
+                
             }
             catch (Exception ex)
             {
