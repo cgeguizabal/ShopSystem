@@ -105,8 +105,6 @@ namespace Sistema.Presentation
             MessageBox.Show(mensaje, "Sistema de Ventas", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
-        
-
         private void BtnBuscar_Click(object sender, EventArgs e)
         {
             this.Buscar();
