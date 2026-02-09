@@ -146,11 +146,26 @@ namespace Sistema.Presentation
         }
 
 
-
+        private void FormatoArticulos()
+        {
+            DgvArticulos.Columns[1].Visible = false; // Hides the second column (ID) as it is typically an internal identifier not needed for display.
+            DgvArticulos.Columns[2].Width = 100; // Sets the width of the third column (Code) to 100 pixels.
+            DgvArticulos.Columns[2].HeaderText = "Categoria";
+            DgvArticulos.Columns[3].Width = 100; // Sets the width of the fourth column (Code) to 100 pixels.
+            DgvArticulos.Columns[3].HeaderText = "Código"; // Sets the header text of the fourth column to "Código".
+            DgvArticulos.Columns[4].Width = 150; // Sets the width of the fifth column (Name) to 150 pixels.
+            DgvArticulos.Columns[5].Width = 100; // Sets the width of the sixth column (Status) to 100 pixels.
+            DgvArticulos.Columns[5].HeaderText = "Precio Venta"; // Sets the header text of the sixth column to "Precio Venta".
+            DgvArticulos.Columns[6].Width = 60; // Sets the width of the seventh column (Description) to 70 pixels.
+            DgvArticulos.Columns[7].Width = 200; // Sets the width of the eighth column (Image) to 200 pixels.
+            DgvArticulos.Columns[7].HeaderText = "Descripción"; // Sets the header text of the eighth column to "Descripción".
+            DgvArticulos.Columns[8].Width = 100; // Sets the width of the ninth column (Stock) to 100 pixels.
+        }
         private void FrmIngreso_Load(object sender, EventArgs e)
         {
             this.Listar(); // Calls the Buscar method to populate the DataGridView when the form loads.
             this.CreateTable(); // Calls the CreateTable method to set up the details DataTable and configure the DgvDetalle DataGridView when the form loads.
+            PanelArticulos.Visible = false;
         }
 
         private void BtnBuscar_Click(object sender, EventArgs e)
@@ -195,14 +210,91 @@ namespace Sistema.Presentation
 
         private void AgregarDetalle(int IdArticulo, string Codigo, string Nombre, decimal Precio)
         {
-            DataRow Row = DtDetalle.NewRow(); // Creates a new DataRow object to represent a new row of data in the DtDetalle DataTable.
-            Row["idarticulo"] = IdArticulo; // Sets the value of the "idarticulo" column in the new row to the provided IdArticulo parameter.
-            Row["codigo"] = Codigo; // Sets the value of the "codigo" column in the new row to the provided Codigo parameter.
-            Row["articulo"] = Nombre;
-            Row["cantidad"] = 1; // Sets the value of the "cantidad" column in the new row to 1, indicating that one unit of the article is being added.
-            Row["precio"] = Precio; // Sets the value of the "precio" column in the new row to the provided Precio parameter.
-            Row["importe"] = Precio; // Sets the value of the "importe" column in the new row to the same value as Precio, as it is typically calculated as quantity multiplied by price.
-          this.DtDetalle.Rows.Add(Row); // Adds the newly created DataRow to the DtDetalle DataTable, which will then be reflected in the DgvDetalle DataGridView that is bound to this DataTable.
+            bool Agregar =true;
+
+            foreach (DataRow FileTemp in DtDetalle.Rows) { 
+                if (Convert.ToInt32(FileTemp["idarticulo"]) == IdArticulo)
+                {
+                    Agregar = false;
+                    this.MensajeError("El articulo ya se encuentra en el detalle");
+                }
+            }
+
+            if (Agregar)
+            {
+                DataRow Row = DtDetalle.NewRow(); // Creates a new DataRow object to represent a new row of data in the DtDetalle DataTable.
+                Row["idarticulo"] = IdArticulo; // Sets the value of the "idarticulo" column in the new row to the provided IdArticulo parameter.
+                Row["codigo"] = Codigo; // Sets the value of the "codigo" column in the new row to the provided Codigo parameter.
+                Row["articulo"] = Nombre;
+                Row["cantidad"] = 1; // Sets the value of the "cantidad" column in the new row to 1, indicating that one unit of the article is being added.
+                Row["precio"] = Precio; // Sets the value of the "precio" column in the new row to the provided Precio parameter.
+                Row["importe"] = Precio; // Sets the value of the "importe" column in the new row to the same value as Precio, as it is typically calculated as quantity multiplied by price.
+            
+                this.DtDetalle.Rows.Add(Row); // Adds the newly created DataRow to the DtDetalle DataTable, which will then be reflected in the DgvDetalle DataGridView that is bound to this DataTable.}
+                this.CalcularTotales(); // Calls the CalcularTotales method to update the total amounts based on the new details added to the DtDetalle DataTable.
+
+            }
+         }
+
+        private void CalcularTotales()
+        {
+            decimal Total = 0;
+            decimal Subtotal = 0;
+            foreach (DataRow FileTemp in DtDetalle.Rows)
+            {
+                Total = Total + Convert.ToDecimal(FileTemp["importe"]);
+            }
+
+            Subtotal = Total / (1 + Convert.ToDecimal(TxtImpuestos.Text));
+            TxtTotal.Text = Total.ToString("#0.00#");
+            TxtSubTotal.Text = Subtotal.ToString("#0.00#");
+            TxtTotalImpuestos.Text = (Total - Subtotal).ToString("#0.00#");
+        }
+
+        private void BtnVerArticulos_Click(object sender, EventArgs e)
+        {
+            PanelArticulos.Visible = true;
+        }
+
+        private void BtnCerrarArticulos_Click(object sender, EventArgs e)
+        {
+            PanelArticulos.Visible = false;
+        }
+
+        private void BtnFiltrarArticulos_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                DgvArticulos.DataSource = NArticulo.Buscar(TxtBuscarArticulo.Text.Trim());
+                this.FormatoArticulos();
+                LblTotalArticulos.Text = "Total registros: " + Convert.ToString(DgvArticulos.Rows.Count);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message + ex.StackTrace);
+            }
+        }
+
+        private void DgvArticulos_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            int IdArticulo;
+            string Codigo, Nombre;
+            decimal Precio;
+            IdArticulo = Convert.ToInt32(DgvArticulos.CurrentRow.Cells["ID"].Value);
+            Codigo = Convert.ToString(DgvArticulos.CurrentRow.Cells["Codigo"].Value);
+            Nombre = Convert.ToString(DgvArticulos.CurrentRow.Cells["Nombre"].Value);
+            Precio = Convert.ToDecimal(DgvArticulos.CurrentRow.Cells["Precio_Venta"].Value);
+            this.AgregarDetalle(IdArticulo, Codigo, Nombre, Precio);
+        }
+
+        private void DgvDetalle_CellEndEdit(object sender, DataGridViewCellEventArgs e)
+        {
+            DataRow Row = (DataRow)DtDetalle.Rows[e.RowIndex]; // Retrieves the DataRow corresponding to the edited cell in the DgvDetalle DataGridView using the row index from the event arguments.
+            decimal Precio =Convert.ToDecimal(Row["precio"]);
+            int Cantidad = Convert.ToInt32(Row["cantidad"]);
+            Row["importe"] = Precio * Cantidad; // Updates the "importe" column in the DataRow by calculating the product of the "precio" and "cantidad" columns, reflecting the new total for that row based on the edited quantity or price.
+            this.CalcularTotales(); // Calls the CalcularTotales method to update the total amounts based on the changes made to the details in the DtDetalle DataTable after editing a cell in the DgvDetalle DataGridView.    
+
         }
     }
 }
