@@ -369,5 +369,118 @@ namespace Sistema.Presentation
             this.CalcularTotales(); // Calls the CalcularTotales method to update the total amounts based on the changes made to the details in the DtDetalle DataTable after rows have been removed from the DgvDetalle DataGridView, ensuring that the totals reflect the current state of the details after any deletions.
 
         }
+
+        private void BtnCancelar_Click(object sender, EventArgs e)
+        {
+            TabGeneral.SelectedIndex = 0; // Sets the selected tab of the TabGeneral TabControl to the first tab (index 0), which is typically the main listing or overview tab, allowing the user to return to the main view after clicking the Cancel button.
+            this.Limpiar(); // Calls the Limpiar method to clear all input fields and reset UI controls to their default state when the Cancel button is clicked.
+        }
+
+        private void DgvListado_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            try
+            {
+                DgvMostrarDetalle.DataSource = NIngreso.ListarDetalle(Convert.ToInt32(DgvListado.CurrentRow.Cells["ID"].Value)); // Sets the DataSource of DgvMostrarDetalle to the result of NIngreso.ListarDetalle(), which retrieves the details for the selected record based on its ID.
+
+                decimal Total, Subtotal;
+                decimal Impuesto = Convert.ToDecimal(DgvListado.CurrentRow.Cells["Impuesto"].Value);
+                Total = Convert.ToDecimal(DgvListado.CurrentRow.Cells["Total"].Value);
+                Subtotal = Math.Round(Total / (1 + Impuesto), 2);
+                TxtSubTotalD.Text = Total.ToString("0.00"); // Displays the total amount in the TxtTotalMostrar textbox, formatted to two decimal places.
+                TxtTotalImpuestoD.Text = (Total - Subtotal).ToString("0.00"); // Displays the tax amount in the TxtImpuestoMostrar textbox, calculated as the difference between total and subtotal, formatted to two decimal places.
+                TxtTotalD.Text = Subtotal.ToString("0.00"); // Displays the subtotal amount in the TxtSubTotalMostrar textbox, formatted to two decimal places.
+            PanelMostrar.Visible = true; // Makes the PanelMostrar visible, allowing the user to see the details of the selected record in DgvListado after double-clicking on it.
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message + ex.StackTrace);
+            }
+        }
+
+        private void BtnCerrarDetalle_Click(object sender, EventArgs e)
+        {
+            PanelMostrar.Visible = false; // Hides the PanelMostrar, allowing the user to close the details view after viewing the details of a selected record in DgvListado.
+        }
+
+        private void DgvListado_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            // Checks if the clicked column is the selection checkbox column.
+            if (e.ColumnIndex == DgvListado.Columns["Seleccionar"].Index)
+            {
+                // Toggles the checkbox value for the clicked row.
+                DataGridViewCheckBoxCell ChkEliminar = (DataGridViewCheckBoxCell)DgvListado.Rows[e.RowIndex].Cells["Seleccionar"];
+                ChkEliminar.Value = !Convert.ToBoolean(ChkEliminar.Value);
+            }
+        }
+
+        private void ChkSeleccion_CheckedChanged(object sender, EventArgs e)
+        {
+            if (ChkSeleccion.Checked)
+            {
+                DgvListado.Columns[0].Visible = true; // Shows the selection column.
+                BtnAnular.Visible = true; // Shows the Activate button.
+            }
+            else
+            {
+                DgvListado.Columns[0].Visible = false; // Hides the selection column.
+                BtnAnular.Visible = false; // Hides the Activate button.
+
+            }
+        }
+
+        private void BtnAnular_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                DialogResult Opcion;
+                // Show a confirmation dialog to the user before deleting categories.
+                // The dialog displays a question icon and OK/Cancel buttons.
+                Opcion = MessageBox.Show(
+                    "Realmente deseas activar esta categoria?", // Message to display
+                    "Sistema de Ventas",                        // Title of the dialog window
+                    MessageBoxButtons.OKCancel,                 // Show OK and Cancel buttons
+                    MessageBoxIcon.Question                     // Show a question icon
+                );
+
+                // If the user clicks OK, proceed with deletion.
+                if (Opcion == DialogResult.OK)
+                {
+                    int Codigo; // Variable to store the category ID to delete
+                    string Rpta = ""; // Variable to store the response from the business layer
+
+                    // Iterate through all rows in the DataGridView.
+                    foreach (DataGridViewRow row in DgvListado.Rows)
+                    {
+                        // Check if the selection checkbox is checked for this row.
+                        if (Convert.ToBoolean(row.Cells[0].Value))
+                        {
+                            // Get the category ID from the second column (index 1).
+                            Codigo = Convert.ToInt32(row.Cells[1].Value);
+                            // Call the business layer to delete the category by ID.
+                            Rpta = NIngreso.Anular(Codigo);
+
+                            // If the deletion was successful, show a success message with the category name.
+                            if (Rpta.Equals("OK"))
+                            {
+                                this.MensajeOk("Se anulo correctamente el registro " + Convert.ToString(row.Cells[6].Value) + "-" + Convert.ToString(row.Cells[7].Value));
+                            }
+                            else
+                            {
+                                // If there was an error, show the error message.
+                                this.MensajeError(Rpta);
+                            }
+                        }
+                    }
+
+                    // Refresh the category list after deletion.
+                    this.Listar();
+                }
+            }
+            catch (Exception ex)
+            {
+                // Show a message box with the error message and stack trace if an exception occurs.
+                MessageBox.Show(ex.Message + ex.StackTrace);
+            }
+        }
     }
 }

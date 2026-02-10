@@ -305,7 +305,7 @@ namespace Sistema.Presentation
                 // Show a confirmation dialog to the user before deleting categories.
                 // The dialog displays a question icon and OK/Cancel buttons.
                 Opcion = MessageBox.Show(
-                    "Realmente deseas activar esta categoria?", // Message to display
+                    "Realmente deseas Anumlar esta factura?", // Message to display
                     "Sistema de Ventas",                        // Title of the dialog window
                     MessageBoxButtons.OKCancel,                 // Show OK and Cancel buttons
                     MessageBoxIcon.Question                     // Show a question icon
@@ -326,7 +326,7 @@ namespace Sistema.Presentation
                             // Get the category ID from the second column (index 1).
                             Codigo = Convert.ToInt32(row.Cells[1].Value);
                             // Call the business layer to delete the category by ID.
-                            Rpta = NCategoria.Activar(Codigo);
+                            Rpta = NIngreso.Anular(Codigo);
 
                             // If the deletion was successful, show a success message with the category name.
                             if (Rpta.Equals("OK"))

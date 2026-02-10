@@ -70,6 +70,35 @@ namespace Sistema.Data
             }
         }
 
+        public DataTable ListarDetalle(int Id)
+        {
+            SqlDataReader Resultado; // To read the results from the database
+            DataTable Tabla = new DataTable(); // To store the results in a table
+            SqlConnection SqlCon = new SqlConnection(); // To create the connection to the database
+
+            try
+            {
+                SqlCon = Connection.GetInstance().CreateConnection(); // Get the connection to the database from the Connection class
+                SqlCommand Comando = new SqlCommand("ingreso_listar_detalle", SqlCon); // Create the SqlCommand object to execute the stored procedure
+                Comando.CommandType = CommandType.StoredProcedure; // Indicate that it is a stored procedure on the SQL Server
+                Comando.Parameters.Add("@idingreso", SqlDbType.Int).Value =Id; // Add the parameter to the command
+                SqlCon.Open(); // Open the connection
+
+                Resultado = Comando.ExecuteReader(); // Execute the command and store the result in Resultado
+                Tabla.Load(Resultado); // Load the result into the DataTable
+                return Tabla; // Return the DataTable with the results
+            }
+            catch (Exception ex)
+            {
+                return null;
+                throw ex; // Throw the exception to be handled by the calling code
+            }
+            finally
+            {
+                if (SqlCon.State == ConnectionState.Open) SqlCon.Close(); // Close the connection if it is open
+            }
+        }
+
         public string Insertar(Ingreso obj) // Insert method to add a new Categoria record, is using the model Categoria from Categoria.cs
         {
             // 'obj' is an instance of the Categoria class, defined in your model layer (Categoria.cs).
@@ -152,9 +181,11 @@ namespace Sistema.Data
                 // Open the SQL Server database connection.
                 SqlCon.Open();
 
+                Comando.ExecuteNonQuery();
+
                 // Execute the stored procedure. ExecuteNonQuery returns the number of affected rows.
                 // If one row was updated (deactivated), return "OK", otherwise return an error message.
-                Rpta = Comando.ExecuteNonQuery() == 1 ? "OK" : "No se pudo anular el registro";
+                Rpta = "OK";
             }
             catch (Exception ex)
             {

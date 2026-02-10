@@ -26,6 +26,12 @@ namespace Sistema.Business
             return Datos.Buscar(Valor); //This line calls the Buscar method from DCategoria class
         }
 
+        public static DataTable ListarDetalle(int Id)
+        {
+            DIngreso Datos = new DIngreso();
+            return Datos.ListarDetalle(Id); //This line calls the Buscar method from DCategoria class
+        }
+
         public static string Insertar(int IdProveedor, int IdUsuario, string TipoComprobante, string SerieComprobante, string NumComprobante, decimal Impuesto, decimal Total, DataTable Detalles)
         {
             DIngreso Datos = new DIngreso(); //Creating an object of DCategoria class from Sistema.Data
