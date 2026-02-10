@@ -43,6 +43,7 @@ namespace Sistema.Presentation
                     else
                     {
                         FrmPrincipal Frm = new FrmPrincipal(); // Creates an instance of the main form (FrmPrincipal)
+                       Variables.IdUsuario = Convert.ToInt32(Table.Rows[0][0]); // Sets the user ID in a global variable
                         Frm.Idusuario = Convert.ToInt32(Table.Rows[0][0]); // Sets the user ID in the main form
                         Frm.IdRol = Convert.ToInt32(Table.Rows[0][1]); // Sets the role ID in the main form
                         Frm.Rol = Convert.ToString(Table.Rows[0][2]); // Converts the role ID to an enum value and sets it in the main form

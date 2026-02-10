@@ -107,9 +107,10 @@ namespace Sistema.Data
                 // Open the SQL Server database connection.
                 SqlCon.Open();
 
+                Comando.ExecuteNonQuery(); // Execute the command to insert the record into the database
                 // Execute the stored procedure. ExecuteNonQuery returns the number of affected rows.
                 // If one row was inserted, return "OK", otherwise return an error message.
-                Rpta = Comando.ExecuteNonQuery() == 1 ? "OK" : "Could not insert the record";
+                Rpta = "OK";
             }
             catch (Exception ex)
             {

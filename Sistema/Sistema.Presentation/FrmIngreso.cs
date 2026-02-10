@@ -84,9 +84,16 @@ namespace Sistema.Presentation
         {
             TxtBuscar.Clear(); // Clears the search textbox.
             TxtId.Clear(); // Clears the ID textbox.
-            BtnInsertar.Visible = true; // Shows the Insert button.
-          
-            ErrorIcono.Clear(); // Clears any error icons.
+            TxtIdProveedor.Clear(); // Clears the supplier ID textbox.
+            TxtNombreProveedor.Clear(); // Clears the supplier name textbox.
+            TxtNumComprobante.Clear(); // Clears the receipt number textbox.
+            DtDetalle.Clear(); // Clears the details DataTable, removing all rows.
+            TxtSubTotal.Text = "0.00"; // Resets the subtotal textbox to "0.00".
+            TxtTotalImpuestos.Text = "0.00"; // Resets the taxes textbox to "0.00".
+            TxtImpuestos.Text = "0.00"; // Resets the taxes percentage textbox to "0.00".
+            TxtSerieComprobante.Clear(); // Clears the receipt series textbox.
+            TxtTotal.Text = "0.00"; // Resets the total textbox to "0.00".
+
 
             DgvListado.Columns[0].Visible = false; // Hides the selection column.
             BtnAnular.Visible = false; // Hides the Activate button.         
@@ -131,10 +138,16 @@ namespace Sistema.Presentation
             DgvDetalle.Columns[2].Width = 200; // Sets the width of the third column to 200 pixels.
             DgvDetalle.Columns[3].HeaderText = "CANTIDAD"; // Sets the header text of the fourth column to "Cantidad".
             DgvDetalle.Columns[3].Width = 70; // Sets the width of the fourth column to 70 pixels.
+
+            DgvDetalle.Columns[4].DefaultCellStyle.Format = "N2";
+
+
             DgvDetalle.Columns[4].HeaderText = "PRECIO"; // Sets the header text of the fifth column to "Precio Compra".
             DgvDetalle.Columns[4].Width = 70; // Sets the width of the fifth column to 90 pixels.
             DgvDetalle.Columns[5].HeaderText = "IMPORTE"; // Sets the header text of the sixth column to "Importe".
             DgvDetalle.Columns[5].Width = 80; // Sets the width of the sixth column to 90 pixels.
+
+            DgvDetalle.Columns[5].DefaultCellStyle.Format = "N2";
 
 
             DgvDetalle.Columns[1].ReadOnly = true; // Sets the second column (Código) to read-only, preventing user edits.
@@ -143,6 +156,7 @@ namespace Sistema.Presentation
 
 
             DgvDetalle.AllowUserToAddRows = false;
+            DgvDetalle.AllowUserToDeleteRows = true;
         }
 
 
@@ -161,6 +175,7 @@ namespace Sistema.Presentation
             DgvArticulos.Columns[7].HeaderText = "Descripción"; // Sets the header text of the eighth column to "Descripción".
             DgvArticulos.Columns[8].Width = 100; // Sets the width of the ninth column (Stock) to 100 pixels.
         }
+
         private void FrmIngreso_Load(object sender, EventArgs e)
         {
             this.Listar(); // Calls the Buscar method to populate the DataGridView when the form loads.
@@ -240,15 +255,24 @@ namespace Sistema.Presentation
         {
             decimal Total = 0;
             decimal Subtotal = 0;
-            foreach (DataRow FileTemp in DtDetalle.Rows)
-            {
-                Total = Total + Convert.ToDecimal(FileTemp["importe"]);
-            }
 
-            Subtotal = Total / (1 + Convert.ToDecimal(TxtImpuestos.Text));
-            TxtTotal.Text = Total.ToString("#0.00#");
-            TxtSubTotal.Text = Subtotal.ToString("#0.00#");
-            TxtTotalImpuestos.Text = (Total - Subtotal).ToString("#0.00#");
+            if(DtDetalle.Rows.Count == 0)
+            {
+                Total = 0;
+            }
+            else
+            {
+                foreach (DataRow FileTemp in DtDetalle.Rows)
+                {
+                    Total = Total + Convert.ToDecimal(FileTemp["importe"]);
+                }
+            }
+           
+
+            Subtotal = Math.Round(Total / (1 + Convert.ToDecimal(TxtImpuestos.Text)), 2);
+            TxtTotal.Text = Total.ToString("0.00");
+            TxtSubTotal.Text = Subtotal.ToString("0.00");
+            TxtTotalImpuestos.Text = (Total - Subtotal).ToString("0.00");
         }
 
         private void BtnVerArticulos_Click(object sender, EventArgs e)
@@ -292,8 +316,57 @@ namespace Sistema.Presentation
             DataRow Row = (DataRow)DtDetalle.Rows[e.RowIndex]; // Retrieves the DataRow corresponding to the edited cell in the DgvDetalle DataGridView using the row index from the event arguments.
             decimal Precio =Convert.ToDecimal(Row["precio"]);
             int Cantidad = Convert.ToInt32(Row["cantidad"]);
-            Row["importe"] = Precio * Cantidad; // Updates the "importe" column in the DataRow by calculating the product of the "precio" and "cantidad" columns, reflecting the new total for that row based on the edited quantity or price.
+            Row["importe"] = Math.Round(Precio * Cantidad, 2); // Updates the "importe" column in the DataRow by calculating the product of the "precio" and "cantidad" columns, reflecting the new total for that row based on the edited quantity or price.
             this.CalcularTotales(); // Calls the CalcularTotales method to update the total amounts based on the changes made to the details in the DtDetalle DataTable after editing a cell in the DgvDetalle DataGridView.    
+
+        }
+
+       
+
+        private void BtnInsertar_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                string Rpta = ""; //Variable to store the response from the business layer
+                                  // Checks if the name textbox is empty.
+                if (TxtIdProveedor.Text == string.Empty || TxtImpuestos.Text ==string.Empty || TxtNumComprobante.Text ==string.Empty || DtDetalle.Rows.Count==0)
+                {
+                    this.MensajeError("Falta ingresar algunos datos, serán remarcados"); //Show error message if name is empty
+                    ErrorIcono.SetError(TxtIdProveedor, "Seleccione un proveedor"); //Set error icon on the name textbox
+                    ErrorIcono.SetError(TxtImpuestos, "Seleccione un Impuesto"); //Set error icon on the name textbox
+                    ErrorIcono.SetError(TxtNumComprobante, "Ingrese el numero del comprobante"); //Set error icon on the name textbox
+                    ErrorIcono.SetError(DgvDetalle, "Debe tener al menos un detalle"); //Set error icon on the name textbox
+
+                }
+                else
+                {
+                    // Calls the business layer to insert a new category with the entered name and description.
+                    Rpta = NIngreso.Insertar(Convert.ToInt32(TxtIdProveedor.Text),Variables.IdUsuario,CboComprobante.Text,TxtSerieComprobante.Text.Trim(),TxtNumComprobante.Text.Trim(),Convert.ToDecimal(TxtImpuestos.Text), Convert.ToDecimal(TxtTotal.Text),DtDetalle); //Call to business layer to insert a new category
+                                                                                                   // Checks if the response is OK (successful insert).
+                    if (Rpta.Equals("OK"))
+                    {
+                        this.MensajeOk("Se insertó de forma correcta el registro"); //Show success message
+                        this.Limpiar(); //Clear the input fields
+                        this.Listar(); //Refresh the category list
+                    }
+                    else
+                    {
+                        this.MensajeError(Rpta); //Show error message with the response from the business layer
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                // Shows a message box with the error message and stack trace if an exception occurs.
+                MessageBox.Show(ex.Message + ex.StackTrace); //Show error message if exception occurs
+            }
+        }
+
+        
+
+        private void DgvDetalle_UserDeletedRow(object sender, DataGridViewRowEventArgs e)
+        {
+            this.CalcularTotales(); // Calls the CalcularTotales method to update the total amounts based on the changes made to the details in the DtDetalle DataTable after rows have been removed from the DgvDetalle DataGridView, ensuring that the totals reflect the current state of the details after any deletions.
 
         }
     }
